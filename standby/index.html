@@ -1,14 +1,135 @@
-<html dir="ltr" lang="de" class="" lazy-loaded="true">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta charset="utf-8">
-    <title>Neuer Tab</title>
-    <style>
-      .middle{
-          text-align: center;
-          margin-top: 500px;
-          color: rgb(255, 255, 255);
-      }</style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <style type="text/css">
+      @font-face {
+        font-family: SF Pro;
+        src: url(FontsFree-Net-SFProDisplay-Regular.ttf) format("truetype");
+      }
+      body {
+        margin: 0;
+      }
+
+      #element {
+        margin: 20px auto 10px auto;
+        height: 50px;
+        width: 400px;
+        background-color: rgb(255, 255, 255);
+        text-align: center;
+        box-sizing: border-box;
+      }
+
+      #go-button {
+        width: 200px;
+        display: block;
+        margin: 20px auto 0 auto;
+      }
+
+      /* webkit requires explicit width, height = 100% of sceeen */
+      /* webkit also takes margin into account in full screen also - so margin should be removed (otherwise black areas will be seen) */
+      #element:-webkit-full-screen {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background-color: black;
+      }
+
+      #element:-moz-full-screen {
+        margin: 0;
+        background-color: black;
+      }
+
+      #element:-ms-fullscreen {
+        margin: 0;
+        background-color: black;
+      }
+
+      /* W3C proposal that will eventually come in all browsers */
+      #element:fullscreen {
+        margin: 0;
+        background-color: black;
+      }
+      .black {
+        font-family: SF Pro;
+        margin-top: 475px;
+        color: white;
+      }
+      .link {
+        text-decoration: none;
+      }
+      .norm {
+        font-size: 50px;
+        font-family: SF Pro;
+      }
+      .button {
+        margin-top: 100px;
+        font-size: 20px;
+      }
+    </style>
   </head>
-    <body style="background-color: rgb(0, 0, 0);"><h1 class="middle">No</h1>
+
+  <body>
+    <div id="element">
+      <span class="norm">Normal mode</span>
+      <button id="go-button" class="button">
+        Press to activate Standby mode
+      </button>
+      <h1 class="black">Standby mode</h1>
+      <a href="https://google.com/" class="link">
+        <h6 class="black">Press to deactivate Standby</h6>
+      </a>
+    </div>
   </body>
+
+  <script>
+    /* Get into full screen */
+    function GoInFullscreen(element) {
+      if (element.requestFullscreen) element.requestFullscreen();
+      else if (element.mozRequestFullScreen) element.mozRequestFullScreen();
+      else if (element.webkitRequestFullscreen)
+        element.webkitRequestFullscreen();
+      else if (element.msRequestFullscreen) element.msRequestFullscreen();
+    }
+
+    /* Get out of full screen */
+    function GoOutFullscreen() {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      else if (document.msExitFullscreen) document.msExitFullscreen();
+    }
+
+    /* Is currently in full screen or not */
+    function IsFullScreenCurrently() {
+      var full_screen_element =
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement ||
+        null;
+
+      // If no element is in full-screen
+      if (full_screen_element === null) return false;
+      else return true;
+    }
+
+    $("#go-button").on("click", function () {
+      if (IsFullScreenCurrently()) GoOutFullscreen();
+      else GoInFullscreen($("#element").get(0));
+    });
+
+    $(document).on(
+      "fullscreenchange webkitfullscreenchange mozfullscreenchange MSFullscreenChange",
+      function () {
+        if (IsFullScreenCurrently()) {
+          $("#element span").text("");
+          $("#go-button").text("");
+        } else {
+          $("#element span").text("Normal mode");
+          $("#go-button").text("Press to activate Standby mode");
+        }
+      }
+    );
+  </script>
 </html>
