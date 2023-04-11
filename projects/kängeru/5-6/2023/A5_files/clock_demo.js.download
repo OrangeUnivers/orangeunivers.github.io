@@ -1,0 +1,53 @@
+var oldTime = Math.floor(new Date().getTime() / 1000);
+var countdownValue = timeleft;
+
+var clock_bar = null;
+var clock_value = null;
+var clock_image_width = 300;
+
+var clock_orange = "url(shared/images/time_left_back_orange.png)";
+var clock_red = "url(shared/images/time_left_back_red.png)";
+
+var clock_interval = null;
+
+window.onload = function()
+{
+	if (totaltime <= 0)
+	{
+		document.getElementById("question_clock_value").innerHTML = "00:00";
+	}
+	else
+	{
+		clock_bar = document.getElementById("question_clock");
+		clock_value = document.getElementById("question_clock_value");
+
+		updateclock();
+		clock_interval = setInterval(updateclock, 100);
+	}
+}
+
+function updateclock()
+{
+	var left = -clock_image_width + countdownValue / totaltime * clock_bar.clientWidth;
+	clock_bar.style.backgroundPosition = parseInt(left) + "px 0px";
+
+	var minutes = "" + parseInt(countdownValue / 60);
+	var seconds = "" + (countdownValue % 60);
+
+	if (minutes < 1)
+		clock_bar.style.backgroundImage = clock_red;
+	else if (minutes < 5)
+		clock_bar.style.backgroundImage = clock_orange;
+
+	if (minutes < 10)
+		minutes = "0" + minutes;
+	if (seconds < 10)
+		seconds = "0" + seconds;
+	clock_value.innerHTML = minutes + ":" + seconds;
+
+	var newTime = Math.floor(new Date().getTime() / 1000);
+	countdownValue = timeleft - (newTime - oldTime);
+
+	if (countdownValue < 0)
+		clearInterval(clock_interval);
+}

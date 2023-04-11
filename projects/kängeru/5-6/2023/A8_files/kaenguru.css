@@ -1,0 +1,388 @@
+:root {
+    --main-color: #ffffff;
+    --secondary-color: #d4ddb1;
+    --dark-gray: #3b3a3a;
+    --light-gray: #eeeeee;
+    --text-color: #1f1f1f;
+    --green-color: #c1cb8d;
+    --link-color: #0353BE;
+}
+
+div.clearfloat {
+  clear: both;
+}
+ 
+body {
+    background: var(--light-gray);
+    font-family: 'Open Sans';
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-color);
+}
+
+#page_content h1, #page_content h2, #page_content h3 {
+    font-family: 'Cabin';
+    margin-bottom: 15px;
+}
+
+table {
+    margin: 0;
+}
+
+#page_content p {
+    margin-bottom: 15px;
+}
+
+#top {
+    width: auto;
+    height: auto;
+    min-height: 135px;
+    padding-top: 10px;
+    background: var(--green-color);
+}
+
+#top h1 {
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    left: 0;
+}
+
+#top #topcontrols a {
+    color: var(--text-color);
+    padding: 0 10px;
+    margin: 0;
+    font-size: 18px;
+}
+
+#logo {
+    margin-top: 20px;
+    height: 98px;
+}
+
+#maintop {
+    display: none;
+}
+
+#top #innertop, #top #buttons-wrapper {
+  width: 1000px;
+  display: block;
+  position: relative;
+  margin: 0px auto;
+}
+
+#topbuttons {
+    margin-top: 40px !important;
+    padding: 0;
+    float: left !important;
+    width: 650px;
+}
+
+#topbuttons a.button {
+    text-align: center;
+    line-height: 18px;
+    font-size: 18px;
+    padding: 0;
+    margin: 0;
+}
+
+#main {
+    min-height: 900px;
+    width: 1000px;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    margin: 0 auto;
+}
+
+#left,
+#page_content {
+    box-sizing: border-box;
+    background: #ffffff;
+    margin: 0;
+    padding: 15px;
+}
+
+#left {
+    width: 25%;
+    float: left;
+    margin: 0;
+}
+
+#left ul li.current {
+    list-style-image: none;
+}
+
+#left ul li a {
+    color: var(--link-color);
+}
+
+#left ul li.question.answer {
+    list-style-image: url(https://kaenguru-schweiz.ch/cuttle/check-lg.svg);
+}
+
+#left ul li.question.current, #left ul li.question.answer.current {
+    list-style-image: url(https://kaenguru-schweiz.ch/cuttle/forward-fill.svg);
+}
+
+#page_content {
+    float: left;
+    min-width: 800px;
+}
+
+a.button,
+a.button span {
+    color: var(--text-color);
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    display: inline;
+}
+
+a.button {
+    text-align: center;
+    line-height: 18px;
+    font-size: 18px;
+    margin: 30px 5px 30px 8px;
+}
+
+a.button span {
+    font-size: 18px;
+    line-height: 17px;
+    font-weight: 700;
+    padding: 2px 10px;
+}
+
+a.button span:hover {
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+}
+
+a.button_active span{
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+table {
+    max-width: 750px;
+}
+
+table tr.header td,
+table tr th {
+    font-weight: bold;
+    text-align: center;
+    background-color: #007B97;
+    color: white;
+}
+
+table tr td, table tr th {
+    border: none;
+    padding: 0;
+}
+
+.user_competitions_list {
+    background-color: #fff;
+}
+
+.user_competitions_list li {
+    list-style: none outside none;
+    padding-bottom: 27px;
+
+}
+
+.user_competitions_list li a {
+    color: var(--dark-gray);
+    text-decoration: none;
+}
+
+.user_competitions_list li a:hover {
+    background-color: var(--secondary-color);
+    text-decoration: none;
+}
+
+#question_overview tr td {
+    padding-right: 20px;
+}
+    
+    
+#page_content #title_caption,
+#question_titlebar,
+.user_competitions_header {
+    margin: auto;
+    line-height: 22px;
+    margin-bottom: 12px;
+    font-size: 25px;
+    text-align: left;
+    padding-bottom: 27px;
+}
+
+.multiselect {
+    border: 2px dotted #007B97 !important;
+}
+
+#question_clock>div {
+    color: inherit;
+    font-weight: inherit;
+}
+
+#question_clock,
+#question_clock_label,
+#question_clock_value,
+#question_flag,
+#question_flag span {
+    background: transparent !important;
+}
+
+#reset-interactivity>button {
+    background: #00BCD4 !important;
+    padding: 10px 30px !important;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: normal !important;
+}
+
+#reset-interactivity>button:hover {
+    background: #00a1b6 !important;
+}
+
+p.warning {
+    border: 2px solid #C2250A;
+    text-align: center;
+}
+
+.question.submit {
+    background: transparent;
+    color: var(--text-color);
+    font-weight: normal;
+    border: 1px solid var(--text-color);
+    min-height: 50px;
+    min-width: 100px;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: auto;
+    margin: 15px 5px 15px 5px !important;
+}
+
+.question.submit.selected {
+    background: var(--link-color);
+}
+
+.question.submit:hover {
+    background: transparent;
+}
+
+.question.submit.selected:hover {
+    background: var(--link-color);
+}
+
+div.vertical.answers > .question.submit {
+    display: block;
+}
+
+div.horizontal.answers > .question.submit {
+    display: inline-block;
+}
+
+input[type=submit] {
+    padding: 15px;
+    background-color: var(--link-color);
+    border-radius: 5px;
+    color: white;
+    position: relative;
+    display: inline-block;
+    border: none;
+}
+
+input.erase {
+    border: none;
+    border-radius: 5px;
+    background: #C2250A;
+    color: white;
+    text-transform: none;
+}
+
+input.erase:hover {
+    background: #751100;
+}
+
+input.submit {
+    margin: 5px !important;
+    padding: 10px 0px;
+    background: #0AC271;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    text-transform: none;
+}
+
+input.submit:hover {
+    background: #078F54;
+}
+
+a.question_button_last, a.question_button_first, div.question_button_last, div.question_button_first {
+    background: transparent;
+    color: var(--link-color);
+    font-weight: normal;
+    margin: 0;
+    margin-top: 20px;
+    padding: 0;
+}
+
+a.question_button_last, div.question_button_last {
+    float: right !important;
+}
+
+/*
+a.question_button_last span::after {
+    content: "\00BB";
+}
+
+a.question_button_first span::before {
+    content: "\00AB";
+}
+
+a.question_button_first:hover, a.question_button_last:hover {
+    color: #0093B5 !important;
+}
+*/
+
+#answerWarning {
+    display: block;
+    color: white;
+    padding: 7px;
+    font-size: 19px;
+    font-weight: normal;
+    margin-bottom: 5px;
+    letter-spacing: 0.05em;
+}
+
+#answerWarning.correct {
+    background-color: #0AC271;
+}
+
+#answerWarning.incorrect {
+    background-color: #C2250A;
+}
