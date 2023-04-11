@@ -1,0 +1,16 @@
+function flag() {
+	$.post(flag_url, { flag: "true" });
+	update_flag(true);
+}
+
+function unflag() {
+	$.post(flag_url, { unflag: "true" });
+	update_flag(false);
+}
+
+function update_flag(flagged)
+{
+	var text = flagged ? (unflag_text || "Unmark Question") : (flag_text || "Mark Question");
+	$("#question_flag_image").attr("src", "shared/images/flag" + (flagged ? "_gray" : "") + ".png");
+	$("#question_flag").attr("title", text).attr("alt", text).unbind("click").click(flagged ? unflag : flag);
+}
