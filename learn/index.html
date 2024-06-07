@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Font Roboto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- Font Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet"> <!-- Font Roboto -->
+    <style>
+        body {
+            font-family: "Roboto", 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            margin: 0; /* Reset default margin */
+            height: 100vh; /* Set body height to viewport height */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            border-radius: 20px;
+            padding: 15px 20px;
+            transition: all 0.3s ease;
+            font-size: 20px;
+            margin-left: 10px;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        .default {
+            background-color: rgb(0, 136, 255);
+        }
+        .default:hover {
+            color: rgb(72, 170, 255);
+            background-color: rgb(224, 241, 255);
+        }
+        .danger {
+            background-color: rgb(255, 11, 11);
+        }
+        .danger:hover {
+            color: rgb(255, 60, 60);
+            background-color: rgb(255, 227, 227);
+        }
+        .container {
+            text-align: center;
+        }
+        .button-group {
+            display: flex;
+            flex-direction: row; /* Change to row to make buttons appear next to each other */
+            justify-content: center; /* Center buttons horizontally */
+        }
+        .title {
+            margin-bottom: 20px; /* Add margin between title and buttons */
+        }
+        .back-button {
+            margin-top: 20px; /* Add margin between the back button and other buttons */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="title" style="color: black;"><b style="font-weight: 600; font-size: 100px;">Learn Pages</b></p>
+        <div class="button-group">
+            <a href="rke/" class="default"><b style="font-weight: 500;">RKE</b></a>
+            <a href="math/" class="default"><b style="font-weight: 500;">Math</b></a>
+        </div>
+        <a href="../index.html" class="danger back-button"><b style="font-weight: 500;">Back</b></a>
+    </div>
+</body>
+</html>
