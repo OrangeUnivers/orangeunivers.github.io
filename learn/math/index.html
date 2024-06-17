@@ -32,120 +32,214 @@ span.Apple-tab-span {white-space:pre}
 span.mathematical {border-radius: 5px; background-color: #d9d4ec; color: #5a527a; font: 16px Roboto Mono; padding-left: 4px; padding-right: 4px; transition: all 0.3s ease;}
 .show_later {visibility: hidden; opacity: 0; transition: all 0.3s ease;}
 @keyframes wiggle {
-    0% { transform: translateX(0px); }
-   80% { transform: translateX(0px); }
-   85% { transform: translateX(5px); }
-   95% { transform: translateX(-5px); }
-  100% { transform: translateX(0px); }
+    0% { transform: translateX(0px)translateY(-2px); }
+   80% { transform: translateX(0px)translateY(-2px); }
+   85% { transform: translateX(5px)translateY(-2px); }
+   95% { transform: translateX(-5px)translateY(-2px); }
+  100% { transform: translateX(0px)translateY(-2px); }
 }
-.wiggle {display: inline-block; animation: wiggle 2.5s infinite;}
-.wiggle:hover {animation: none; visibility: hidden; opacity: 0;}
+.wiggle {display: inline-block; animation: wiggle 2.5s infinite; transition: all 0.3s ease;}
+button {display: inline-block; background-color: #ffffff; border-color: #bab4d3; color: #5a527a; border-radius: 100%; border: 3px solid; border-style: solid;  width: 40px; height: 40px; text-align: center;}
 </style>
 </head>
 <body>
 <div style="max-width: 700px; margin-left: auto; margin-right: auto;">
 <p class="p1">​</p>
-<a href="https://arc.net" target="_blank" style="margin-bottom: 0px; color: rgb(109, 103, 138);font-weight: 600; opacity: 0.5; font-size: 14px; text-decoration: none; display: inline-block; position: relative; font: 18.0px Nunito;"><img src="https://arc.net/static/536f6ae2022cdefbc2d8.svg"><span> Made using Arc</span></a>
+<a href="https://arc.net" target="_blank" style="margin-bottom: 0px; color: rgb(109, 103, 138);font-weight: 600; opacity: 0.5; font-size: 14px; text-decoration: none; display: inline-block; position: relative; font: 18.0px Nunito;"><img src="https://arc.net/static/536f6ae2022cdefbc2d8.svg"><span> Made using Arc Notes</span></a>
 <p style="padding-top: 0px; position: relative; transform: translateY(10px);"><b style="margin: 0.0px 0.0px 0.0px 0.0px; font: 42.0px Nunito; color: #5a527a"><b>Dreiecke</b></b><b style="margin: 0.0px 0.0px 0.0px 0.0px; font: 21.0px Nunito; color: #5a527a"><b> Mathe Testvorbereitung für 18.6.2024</b></b></p>
 <p class="p1"><b>Dreiecke mit nur drei Elemente konstruieren:</b></p>
-<p class="p2"><b>SSS:</b></p>
+
+<!-- SSS -->
+
+<p class="p2"><b>SSS (Seite-Seite-Seite):</b></p>
 <p class="p3">Mit nur drei angegebene Seiten kann man einen Dreieck konstruieren.</p>
 <p class="p3">Versuchen wir mal mit <span class="mathematical">a = 5cm</span>, <span class="mathematical">b = 6cm</span> und <span class="mathematical">c = 7cm</span>:</p>
 <br>
+<p class="p4"><b>Konstruktion:</b></p>
+
 <p class="p3" style="transition: all 0.2s ease;" id="struct_1_text"> </p>
+
 <img style="width: 200px; float: right; transition: all 0.2s ease;" src="struct_1_frame1.png" id="struct_1_img">
+<span>
+<p class="p3" style="border-radius: 5px; background-color: #5a527a; font: 16px Roboto Mono; padding-left: 0px; padding-right: 0px; float: left; width: 5px; transform: translateY(-3.5px); margin-right: 3px;">
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span><br>
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span><br>
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span>
+</p>
 <p class="p3">
     <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_1_1"><b>1.</b> c = 7cm = AB</span><br>
     <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_1_2"><b>2.</b> k(A,b) <span class="show_later" id="struct_1_2_2">∩</span> <span class="show_later" id="struct_1_2_1">k(B,a)</span><span class="show_later" id="struct_1_2_3"> = {C}</span></span><br>
     <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_1_3"><b>3.</b> ⮕△ABC</span>
 </p>
+</span>
+
 <br>
 <br>
 <br>
+
+<span><button onclick="struct_1()" id="struct_1_button">
+    <i class="fa-solid fa-play" style="font-size: 20px; transform: translateX(1px);"></i>
+</button><span style="font-family: Roboto Mono; color: #bab4d3; transition: all 0.5s ease; transform: translateY(-2px);" class="wiggle" id="first_struct">    <i style='font-size:14px' class='fas'>&#xf060;</i> Drücke hier um Konstruktion zu starten</span></span>
 <br>
 <br>
-<span><button onclick="struct_1()" style="display: inline-block;
-    background-color: #ffffff;
-    border-color: #bab4d3;
-    color: #5a527a;
-    border-radius: 100%;
-    border: 3px solid;
-    border-style: solid;
-    padding: 4px;
-    padding-left: 8px;
-    padding-right: 6px;" id="struct_1_button">
-    <i class="fa-solid fa-play" style="font-size: 20px;"></i>
-</button><span style="font-family: Roboto Mono; color: #bab4d3; transition: all 0.2s ease;" class="wiggle" id="first_struct">    <i style='font-size:14px' class='fas'>&#xf060;</i> Drücke hier um Konstruktion zu starten</span></span>
-<p class="p4"><b>Primfaktorzerlegung:</b></p>
-<p class="p3">Man kann eine zusammengesetzte Zahl immer zu kleineren Zahlen <b><i>zerlegen </i></b>(Also z.&nbsp;B. 4 = 2·2 oder 6 = 3·3). Diese Operation wurde <b><i>Primfaktorzerlegung</i></b> gennant.</p>
 <p class="p3">⚠️ <b>Warnung</b> ⚠️</p>
-<p class="p3">Es gibt nur <span class="s1">eine</span> Primfaktorzerlegung für jeweils eine Zahl.</p>
+<p class="p3">Ein SSS Dreieck kann nur gemacht werden falls die längste Seite länger ist als beide anderen.</p>
 <p class="p5"><br></p>
-<p class="p2"><b>Teilbarkeitsregeln:</b></p>
-<p class="p3"><span style="color: #5a527a;"><b>2. </b></span><span class="Apple-tab-span">	</span><span style="color: #000000;">Wenn die Zahl gerade ist.</span></p>
-<p class="p3"><span style="color: #5a527a;"><b>3. </b><span class="Apple-tab-span">	</span><span style="color: #000000;">Wenn die Quersumme der Zahl durch drei Teilbar ist.</span></p>
-<p class="p3"><span style="color: #5a527a important;"><b>4. </b><span class="Apple-tab-span">	</span><span style="color: #000000;">Wenn die letzten 2 Ziffern durch 4 teilbar sind.</span></p>
-<p class="p3"><span style="color: #5a527a important;"><b>5. </b><span class="Apple-tab-span">	</span><span style="color: #000000;">Wenn die letzte Zahl eine 0 oder 5 ist.</span></p>
-<p class="p3"><span style="color: #5a527a important;"><b>6. </b><span class="Apple-tab-span">	</span><span style="color: #000000;">Wenn die Zahl gerade und die Quersumme durch 3 teilbar sind.</span></p>
-<p class="p3"><span style="color: #5a527a important;"><b>7.</b><span class="Apple-tab-span">	</span><span style="color: #000000;">Wenn die alternierende 3er Quersumme durch sieben teilbar ist. (Z. B. 7’770’784 <span class="Apple-converted-space">          <span class="Apple-tab-span">	</span></span>= (<span class="s1"><b>+</b></span>784<span class="s1"><b>-</b></span>770<span class="s1"><b>+</b></span>7) = 21, 21/7 = 3)</span></p>
-<p class="p3"><span style="color: #5a527a;"><b>8.</b><span class="Apple-tab-span">	</span><span style="color: #000000;">Wenn die letzten 3 Ziffern durch 8 teilbar sind.</span></p>
-<p class="p3"><span style="color: #5a527a important;"><b>9.</b><span class="Apple-tab-span">	</span><span style="color: #000000;">Wenn die Quersumme durch 9 teilbar ist.</span></p>
-<p class="p3"><span style="color: #5a527a important;"><b>10.</b><span class="Apple-tab-span">	</span><span style="color: #000000;">Wenn die letzte Zahl eine 0 ist.</span></p>
-<p class="p3"><span style="color: #5a527a important;"><b>11.</b><span class="Apple-tab-span">	</span><span style="color: #000000;">Wenn die Paarquersumme durch 11 teilbar ist. (Z. B. 2’93’48 = (48+93+2) = 143, <span class="Apple-tab-span">	</span>143 = (43+1) = 44, 44/11 = 4)</span></p>
+
+<!-- SWS -->
+
+<p class="p2"><b>SWS (Seite-Winkel-Seite):</b></p>
+<p class="p3">Bei denn SWS kann man mit nur zwei Seiten und einen Winkel einen Dreieck konstruieren.</p>
+<p class="p3">Versuchen wir mal mit <span class="mathematical">c = 7cm</span>, <span class="mathematical">b = 6cm</span> und <span class="mathematical">α = 50°</span>:</p>
+<p class="p4"><b>Konstruktion:</b></p>
+
+<p class="p3" style="transition: all 0.2s ease;" id="struct_2_text"> </p>
+
+<img style="width: 200px; float: right; transition: all 0.2s ease;" src="struct_2_frame1.png" id="struct_2_img">
+
+<span>
+<p class="p3" style="border-radius: 5px; background-color: #5a527a; font: 16px Roboto Mono; padding-left: 0px; padding-right: 0px; float: left; width: 5px; transform: translateY(-3.5px); margin-right: 3px;">
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span><br>
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span><br>
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span><br>
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span>
+</p>
+<p class="p3">
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_2_1"><b>1.</b> c = 7cm = AB</span><br>
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_2_2"><b>2.</b> α = 50° = cAg ⮕ {g}</span><br>
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_2_3"><b>3.</b> k(A,b)<span style="visibility: hidden; opacity: 0;" id="struct_2_3_1" class="show_later"> ∩ g = {C}</span></span><br>
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_2_4"><b>4.</b> ⮕△ABC</span>
+</p>
+</span>
+
+<br>
+<br>
+<br>
+
+<button onclick="struct_2()" id="struct_2_button">
+    <i class="fa-solid fa-play" style="font-size: 20px; transform: translateX(1px);"></i>
+</button>
 <p class="p5"><br></p>
-<p class="p2"><b>ggT &amp; kgV:</b></p>
-<p class="p4"><b>ggT:</b></p>
-<p class="p3">Der <b><i>ggT</i></b> <b>(g</b>rösster <b>g</b>emeinsamer <b>T</b>eiler) ist die grösste zahl vomit man zwei Zahlen dividieren kann (Z. B. ggT(4,6) = 2). Der ggT wird mit der Primfaktorzerlegung herausgefunden wie folgend:</p>
-<p class="math"><b>12 = </b><span class="s1"><b>2</b></span><b> * </b><span class="s1"><b>2</b></span><b> * 3</b></p>
-<p class="math"><b>20 = </b><span class="s1"><b>2</b></span><b> * </b><span class="s1"><b>2</b></span><b> <span class="Apple-converted-space">  </span>* <span class="Apple-converted-space">  </span>5</b></p>
-<p class="p3">Also ist der ggT(12, 20) = 2·2 = 4.</p>
-<p class="p3">Diese Operation wird so benutzt: ggT(a, b) = t (“t” für Teiler).</p>
-<p class="p4"><b>kgV:</b></p>
-<p class="p3">Der <b><i>kgV</i></b> (<b>k</b>leinster <b>g</b>emeinsamer <b>V</b>ielfach) ist die kleinste Zahl die durch denn beiden Zahlen selbst dividiert werden kann (Z. B. kgV(3,4) = 12). Der kgV wird mit der Primfaktorzerlegung herausgefunden wie folgend:</p>
-<p class="math"><b>72 = </b><span class="s1"><b>2</b></span><b> * </b><span class="s1"><b>2</b></span><b> * </b><span class="s1"><b>2</b></span><b> * </b><span class="s1"><b>3</b></span><b> * </b><span class="s1"><b>3</b></span></p>
-<p class="math"><b>60 = 2 * 2 <span class="Apple-converted-space">  </span>* <span class="Apple-converted-space">  </span>3 <span class="Apple-converted-space">  </span>* <span class="Apple-converted-space">  </span></b><span class="s1"><b>5</b></span></p>
-<p class="p3">Also ist der kgV(72,60) = 2·2·2·3·3·5 = 360</p>
-<p class="p3">Diese Operation wird so benutzt: kgV(a, b) = v (“v” für Vielfaches).</p>
-<p class="p4"><b>Beziehung zwischen ggT &amp; kgV:</b></p>
-<p class="p3">Der ggT hat eine Beziehung zum kgV und vertausch so wie folgend dargestellt:</p>
-<p class="math"><b>ggT(a,b):kgV(a,b) = a*b</b></p>
-<p class="math"><b><span class="Apple-converted-space">         </span>kgV(a,b) = (a*b) / ggT(a,b)</b></p>
-<p class="math"><b><span class="Apple-converted-space">         </span>ggT(a,b) = (a*b) / kgV(a,b)</b></p>
+
+<!-- WSW -->
+
+<p class="p2"><b>WSW (Winkel-Seite-Winkel):</b></p>
+<p class="p3">Bei denn WSW kann man mit nur zwei Winkeln und eine Seite einen Dreieck konstruieren.</p>
+<p class="p3">Versuchen wir mal mit <span class="mathematical">c = 7cm</span>, <span class="mathematical">α = 60°</span> und <span class="mathematical">β = 45°</span>:</p>
+<p class="p4"><b>Konstruktion:</b></p>
+
+<p class="p3" style="transition: all 0.2s ease;" id="struct_3_text"> </p>
+
+<img style="width: 200px; float: right; transition: all 0.2s ease;" src="struct_3_frame1.png" id="struct_3_img">
+
+<span>
+<p class="p3" style="border-radius: 5px; background-color: #5a527a; font: 16px Roboto Mono; padding-left: 0px; padding-right: 0px; float: left; width: 5px; transform: translateY(-3.5px); margin-right: 3px;">
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span><br>
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span><br>
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span><br>
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span><br>
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span>
+</p>
+<p class="p3">
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_3_1"><b>1.</b> c = 7cm = AB</span><br>
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_3_2"><b>2.</b> α = 60° = cAg ⮕ {g}</span><br>
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_3_3"><b>3.</b> β = 45° = cBh ⮕ {h}</span><br>
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_3_4"><b>4.</b> g ∩ h = {C}</span><br>
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_3_5"><b>5.</b> ⮕△ABC</span>
+</p>
+</span>
+
+<br>
+<br>
+
+<button onclick="struct_3()" id="struct_3_button">
+    <i class="fa-solid fa-play" style="font-size: 20px; transform: translateX(1px);"></i>
+</button>
+<p class="p5"><br></p>
+
+<!-- SSW -->
+
+<p class="p2"><b>SSW (Seite-Seite-Winkel):</b></p>
+<p class="p3">Bei denn SSW kann man auch mit nur zwei Winkeln und eine Seite einen Dreieck konstruieren. Aber der Winkel ist neben den zwei Seiten statt in mitten.</p>
+<p class="p3">Versuchen wir mal mit <span class="mathematical">a = 6cm</span>, <span class="mathematical">c = 7cm</span> und <span class="mathematical">γ = 70°</span>:</p>
+<p class="p4"><b>Konstruktion:</b></p>
+
+<p class="p3" style="transition: all 0.2s ease;" id="struct_4_text"> </p>
+
+<img style="width: 200px; float: right; transition: all 0.2s ease;" src="struct_4_frame1.png" id="struct_4_img">
+
+<span>
+<p class="p3" style="border-radius: 5px; background-color: #5a527a; font: 16px Roboto Mono; padding-left: 0px; padding-right: 0px; float: left; width: 5px; transform: translateY(-3.5px); margin-right: 3px;">
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span><br>
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span><br>
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span><br>
+    <span style="font: 16px Roboto Mono; line-height: 24px;">&nbsp;</span>
+</p>
+<p class="p3">
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_4_1"><b>1.</b> a = 6cm = BC</span><br>
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_4_2"><b>2.</b> γ = 70° = aCg ⮕ {g}</span><br>
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_4_3"><b>3.</b> k(B,c)<span style="visibility: hidden; opacity: 0;" id="struct_4_3_1" class="show_later"> ∩ g = {A}</span></span><br>
+    <span class="mathematical" style="visibility: hidden; opacity: 0;" id="struct_4_4"><b>4.</b> ⮕△ABC</span>
+</p>
+</span>
+
+<br>
+<br>
+<br>
+<br>
+
+<button onclick="struct_4()" id="struct_4_button">
+    <i class="fa-solid fa-play" style="font-size: 20px; transform: translateX(1px);"></i>
+</button>
+<p class="p5"><br></p>
+
+<!-- WWW -->
+
+<p class="p2"><b>WWW (Winkel-Winkel-Winkel):</b></p>
+<p class="p3">Man kann leider <span class="s1">keinen</span> definitiven Dreieck ohne zusätzliche Information konstruieren weil das Dreieck unendlich skaliert werden kann.</p>
+
 <p class="p5"><br></p>
 <p class="p5"><br></p>
-<p class="p1"><b>Brüche:</b></p>
-<p class="p2"><b>Erweitern und kürzen:</b></p>
-<p class="p4"><b>Erweitern:</b></p>
-<p class="p3">Man erweitert einen Bruch wenn man denn Nenner und Zähler durch die gleiche Zahl <span class="s1">multiplizierst</span>. Zum Beispiel:</p>
-<p class="math"><b><span class="Apple-tab-span">	</span>(1)*2 / (2)*2<span class="Apple-converted-space"> </span></b></p>
-<p class="math"><b><span class="Apple-converted-space"> </span>=<span class="Apple-tab-span">	</span>(2) <span class="Apple-converted-space">  </span>/ (4)</b></p>
-<p class="p3">Der Nenner und der Zähler wurden jetzt beide vergrössert ohne dass die ihren Wert verändert wurde.</p>
-<p class="p3">Diese Operation wird so benutzt: (a)*n / (b)*n.</p>
-<p class="p4"><b>Kürzen:</b></p>
-<p class="p3">Man erweitert einen Bruch wenn man denn Nenner und Zähler durch die gleiche Zahl <span class="s1">dividierst</span>. Zum Beispiel:</p>
-<p class="math"><b><span class="Apple-tab-span">	</span>(25):5 / (40):5</b></p>
-<p class="math"><b><span class="Apple-converted-space"> </span>=<span class="Apple-tab-span">	</span>(5)<span class="Apple-converted-space">    </span>/ (8)</b></p>
-<p class="p3">Der Nenner und der Zähler wurden jetzt beide verkleinert ohne dass die ihren Wert verändert wurde.</p>
-<p class="p3">Das kürzen kann mit Hilfe der Primfaktorzerlegung gemacht werden wie folgend:</p>
-<p class="math"><b>(3a²) / (6ab) = (</b><span class="s1"><b>3</b></span><b>*</b><span class="s1"><b>a</b></span><b>*a) / (2*</b><span class="s1"><b>3</b></span><b>*</b><span class="s1"><b>a</b></span><b>*b) = (a) / (2b)</b></p>
-<p class="p3">Diese Operation wird so benutzt: (a):n / (b):n.</p>
-<p class="p4"><b>Bruch Typen:</b></p>
-<ul>
-    <li class="li3"><b>Stammbrüche:</b>##Das sind Brüche mit den Zähler 1 (Bsp. (1) / (7)).</li>
-    <li class="li3"><b>Echte Brüche:</b>##Das sind Brüche wo der Zähler kleiner als der Nenner ist (Bsp. (2) / (5)).</li>
-    <li class="li3"><b>Unechte Brüche:</b>##Das sind Brüche wo der Zähler grösser als der Nenner ist (Bsp. (7) / (3)).</li>
-    <li class="li3"><b>Scheinbrüche:</b>##Das sind Brüche die als ganze Zahlen geschrieben werden können (Bsp. (4) / (2)).</li>
-    <li class="li3"><b>Gemischte Br.:</b>##Das sind Brüche die beide ganze Zahlen und Brüche sind (Bsp. 2 + (1) / (3)).</li>
-    <li class="li3"><b>Kehrwert:</b>##Der Kehrwert sind zwei Brüche die gleichen zahlen aber vertausch haben (Bsp. (a) / (b) ist Kehrwert von (b) / (a)).</li>
-</ul>
-<p class="p4"><b>Bemerkung:</b></p>
-<p class="p3">Befindet sich im Nenner oder im Zähler eine Summe oder Differenz dann muss man die Summe vor dem kürzen zu einen Produkt verwandeln.</p>
+
+<p class="p1"><b>Spezielle Linien und Punkte:</b></p>
+<p class="p2"><b>Höhe:</b></p>
+<p class="p3">Die <b><i>Höhe</i></b> <span class="mathematical">h</span> ist die Linie die senkrecht von der Seite geht.<br>Der Schittpunkt aller Höhen heisst <b><i>Höhenschnittpunkt</i></b> <span class="mathematical">H</span>.</p>
+<p class="p5"><br></p>
+<p class="p2"><b>Seitenhalbierende:</b></p>
+<p class="p3">Die <b><i>Seitenhalbierende</i></b> <span class="mathematical">s</span> ist die Linie die senkrecht von der Seite geht.<br>Der Schittpunkt aller Seitenhalbierenden heisst <b><i>Schwerpunkt</i></b> <span class="mathematical">S</span>.<br>Die Seitenhalbierenden sind im 2:1 Ratio.</p>
+<p class="p5"><br></p>
+<p class="p2"><b>Mittelsenkrechte:</b></p>
+<p class="p3">Die <b><i>Mittelsenkrechte</i></b> <span class="mathematical">m</span> ist die Linie die senkrecht von der Seite geht.<br>Der Schittpunkt aller Mittelsenkrechten heisst <b><i>Umkreismittelpunkt</i></b> <span class="mathematical">U</span>.<br>Auf dem Umkreismittelpunkt liegen alle Ecken des Dreiecks.</p>
+<p class="p5"><br></p>
+<p class="p2"><b>Winkelhalbierende:</b></p>
+<p class="p3">Die <b><i>Winkelhalbierende</i></b> <span class="mathematical">w</span> ist die Linie die senkrecht von der Seite geht.<br>Der Schittpunkt aller Winkelhalbierenden heisst <b><i>Inkreismittelpunkt</i></b> <span class="mathematical">I</span>.<br>Auf dem Inkreismittelpunkt liegen alle Seiten des Dreiecks.</p>
+
+<p class="p5"><br></p>
+<p class="p5"><br></p>
+
+<p class="p1"><b>Linien in Gleichschenklige/-seitige Dreiecke:</b></p>
+<p class="p2"><b>Gleichschenklige Dreiecke:</b></p>
+<p class="p3">Alle Schittpunkte der Speziellen Linien befinden sich auf der Symmetrieachse des Dreiecks.</p>
+<p class="p5"><br></p>
+<p class="p2"><b>Gleichseitige Dreiecke:</b></p>
+<p class="p3">Alle Schittpunkte der Speziellen Linien befinden sich in der Mitte des Dreiecks.</p>
+<p class="p5"><br></p>
+<p class="p5"><br></p>
+<p class="p1"><b>Der Thaleskreis:</b></p>
+<p class="p2"><b>Herkunft:</b></p>
+<p class="p3">Der <b><i>Thaleskreis</i></b> ist vom griechischen Philosophen und Mathematiker <b>Thales von Milet</b> (624 - 546 v. Chr.) erfunden worden.</p>
+<p class="p2"><b>Benutz:</b></p>
+<p class="p3">Wenn Hypotenuse eines rechtwinkligen Dreieck auf den Durchmesser des Thaleskreis liegt ist die letzte Ecke des Dreiecks immer auf dem Kreis.</p>
+
 <p class="p1">​</p>
 </div>
 <script>
     var struct_1_run = 0
+    var struct_2_run = 0
+    var struct_3_run = 0
+    var struct_4_run = 0
+    let first_struct = document.getElementById("first_struct");
     function struct_1() {
-        let first_struct = document.getElementById("first_struct");
         let struct_1_1 = document.getElementById("struct_1_1");
         let struct_1_2 = document.getElementById("struct_1_2");
         let struct_1_2_1 = document.getElementById("struct_1_2_1");
@@ -165,7 +259,7 @@ span.mathematical {border-radius: 5px; background-color: #d9d4ec; color: #5a527a
             struct_1_text.style.opacity = 0
             struct_1_img.style.visibility = "hidden"
             struct_1_img.style.opacity = 0
-            struct_1_button.innerHTML = "<i class='fa-solid fa-forward' style='font-size: 20px;'>"
+            struct_1_button.innerHTML = "<i class='fa-solid fa-forward' style='font-size: 20px; transform: translateX(1px);'>"
             setTimeout(function() {
                 struct_1_text.innerHTML = "Zuerst konstruieren wir die Strecke <span class='mathematical'>c</span> die <span class='mathematical'>7cm</span> gross ist mit Endpunkten <span class='mathematical'>AB</span>."
                 struct_1_text.style.visibility = "visible"
@@ -235,14 +329,14 @@ span.mathematical {border-radius: 5px; background-color: #d9d4ec; color: #5a527a
         if (struct_1_run == 4) {
             struct_1_3.style.visibility = "visible"
             struct_1_3.style.opacity = 1
-            struct_1_button.innerHTML = "<i class='fa-solid fa-repeat' style='font-size: 20px;'>"
+            struct_1_button.innerHTML = "<i class='fa-solid fa-repeat' style='font-size: 20px; transform: translateY(0.5px);'>"
             struct_1_run += 1
             struct_1_text.style.visibility = "hidden"
             struct_1_text.style.opacity = 0
             struct_1_img.style.visibility = "hidden"
             struct_1_img.style.opacity = 0
             setTimeout(function() {
-                struct_1_text.innerHTML = "Dann konstruiert man den Dreieck <span class='mathematical'>ABC</span>"
+                struct_1_text.innerHTML = "Dann konstruiert man den Dreieck <span class='mathematical'>ABC</span>."
                 struct_1_text.style.visibility = "visible"
                 struct_1_text.style.opacity = 1
                 struct_1_img.src = "struct_1_frame6.png"
@@ -264,14 +358,401 @@ span.mathematical {border-radius: 5px; background-color: #d9d4ec; color: #5a527a
             struct_1_2_3.style.opacity = 0
             struct_1_3.style.visibility = "hidden"
             struct_1_3.style.opacity = 0
-            struct_1_text.innerHTML = " "
             struct_1_text.style.visibility = "hidden"
             struct_1_text.style.opacity = 0
             struct_1_img.style.visibility = "hidden"
             struct_1_img.style.opacity = 0
-            struct_1_img.src = "struct_1_frame6.png"
-            struct_1_button.innerHTML = "<i class='fa-solid fa-play' style='font-size: 20px;'>"
+            struct_1_button.innerHTML = "<i class='fa-solid fa-play' style='font-size: 20px; transform: translateX(1px);'>"
             struct_1_run = 0
+            setTimeout(function() {
+                struct_1_text.innerHTML = " "
+                struct_1_img.src = "struct_1_frame1.png"
+            }, 200);
+            return
+        }
+    }
+    function struct_2() {
+        let struct_2_1 = document.getElementById("struct_2_1");
+        let struct_2_2 = document.getElementById("struct_2_2");
+        let struct_2_3 = document.getElementById("struct_2_3");
+        let struct_2_3_1 = document.getElementById("struct_2_3_1");
+        let struct_2_4 = document.getElementById("struct_2_4");
+        let struct_2_text = document.getElementById("struct_2_text");
+        let struct_2_button = document.getElementById("struct_2_button");
+        let struct_2_img = document.getElementById("struct_2_img");
+        first_struct.style.visibility = "hidden"
+        first_struct.style.opacity = 0
+        if (struct_2_run == 0) {
+            struct_2_1.style.visibility = "visible"
+            struct_2_1.style.opacity = 1
+            struct_2_text.style.visibility = "hidden"
+            struct_2_text.style.opacity = 0
+            struct_2_img.style.visibility = "hidden"
+            struct_2_img.style.opacity = 0
+            struct_2_button.innerHTML = "<i class='fa-solid fa-forward' style='font-size: 20px; transform: translateX(1px);'>"
+            setTimeout(function() {
+                struct_2_text.innerHTML = "Zuerst konstruieren wir die Strecke <span class='mathematical'>c</span> die <span class='mathematical'>7cm</span> gross ist mit Endpunkten <span class='mathematical'>AB</span>."
+                struct_2_text.style.visibility = "visible"
+                struct_2_text.style.opacity = 1
+                struct_2_img.src = "struct_2_frame2.png"
+                struct_2_img.style.visibility = "visible"
+                struct_2_img.style.opacity = 1
+            }, 200);
+            struct_2_run += 1
+            return
+        }
+        if (struct_2_run == 1) {
+            struct_2_2.style.visibility = "visible"
+            struct_2_2.style.opacity = 1
+            struct_2_text.style.visibility = "hidden"
+            struct_2_text.style.opacity = 0
+            struct_2_img.style.visibility = "hidden"
+            struct_2_img.style.opacity = 0
+            setTimeout(function() {
+                struct_2_text.innerHTML = "Dann machen wir von <span class='mathematical'>A</span> aus Gerade <span class='mathematical'>g</span>, <span class='mathematical'>50°/α</span> von <span class='mathematical'>c</span> aus."
+                struct_2_text.style.visibility = "visible"
+                struct_2_text.style.opacity = 1
+                struct_2_img.src = "struct_2_frame3.png"
+                struct_2_img.style.visibility = "visible"
+                struct_2_img.style.opacity = 1
+            }, 200);
+            struct_2_run += 1
+            return
+        }
+        if (struct_2_run == 2) {
+            struct_2_3.style.visibility = "visible"
+            struct_2_3.style.opacity = 1
+            struct_2_button.innerHTML = "<i class='fa-solid fa-repeat' style='font-size: 20px; transform: translateY(0.5px);'>"
+            struct_2_text.style.visibility = "hidden"
+            struct_2_text.style.opacity = 0
+            struct_2_img.style.visibility = "hidden"
+            struct_2_img.style.opacity = 0
+            setTimeout(function() {
+                struct_2_text.innerHTML = "Dann machen wir einen Kreis mit Mittelpunkt <span class='mathematical'>A</span> und den Radius <span class='mathematical'>b</span>."
+                struct_2_text.style.visibility = "visible"
+                struct_2_text.style.opacity = 1
+                struct_2_img.src = "struct_2_frame4.png"
+                struct_2_img.style.visibility = "visible"
+                struct_2_img.style.opacity = 1
+            }, 200);
+            struct_2_run += 1
+            return
+        }
+        if (struct_2_run == 3) {
+            struct_2_3_1.style.visibility = "visible"
+            struct_2_3_1.style.opacity = 1
+            struct_2_button.innerHTML = "<i class='fa-solid fa-repeat' style='font-size: 20px; transform: translateY(0.5px);'>"
+            struct_2_text.style.visibility = "hidden"
+            struct_2_text.style.opacity = 0
+            struct_2_img.style.visibility = "hidden"
+            struct_2_img.style.opacity = 0
+            setTimeout(function() {
+                struct_2_text.innerHTML = "Dann kriegt man den Schittpunkt von dem Kreis und Gerade <span class='mathematical'>g</span>, der Punkt <span class='mathematical'>C</span> ist."
+                struct_2_text.style.visibility = "visible"
+                struct_2_text.style.opacity = 1
+                struct_2_img.src = "struct_2_frame5.png"
+                struct_2_img.style.visibility = "visible"
+                struct_2_img.style.opacity = 1
+            }, 200);
+            struct_2_run += 1
+            return
+        }
+        if (struct_2_run == 4) {
+            struct_2_4.style.visibility = "visible"
+            struct_2_4.style.opacity = 1
+            struct_2_button.innerHTML = "<i class='fa-solid fa-repeat' style='font-size: 20px; transform: translateY(0.5px);'>"
+            struct_2_text.style.visibility = "hidden"
+            struct_2_text.style.opacity = 0
+            struct_2_img.style.visibility = "hidden"
+            struct_2_img.style.opacity = 0
+            setTimeout(function() {
+                struct_2_text.innerHTML = "Dann konstruiert man den Dreieck <span class='mathematical'>ABC</span>."
+                struct_2_text.style.visibility = "visible"
+                struct_2_text.style.opacity = 1
+                struct_2_img.src = "struct_2_frame6.png"
+                struct_2_img.style.visibility = "visible"
+                struct_2_img.style.opacity = 1
+            }, 200);
+            struct_2_run += 1
+            return
+        }
+        if (struct_2_run == 5) {
+            struct_2_1.style.visibility = "hidden"
+            struct_2_1.style.opacity = 0
+            struct_2_2.style.visibility = "hidden"
+            struct_2_2.style.opacity = 0
+            struct_2_3.style.visibility = "hidden"
+            struct_2_3.style.opacity = 0
+            struct_2_3_1.style.visibility = "hidden"
+            struct_2_3_1.style.opacity = 0
+            struct_2_4.style.visibility = "hidden"
+            struct_2_4.style.opacity = 0
+            struct_2_text.style.visibility = "hidden"
+            struct_2_text.style.opacity = 0
+            struct_2_img.style.visibility = "hidden"
+            struct_2_img.style.opacity = 0
+            struct_2_button.innerHTML = "<i class='fa-solid fa-play' style='font-size: 20px; transform: translateX(1px);'>"
+            setTimeout(function() {
+                struct_2_text.innerHTML = " "
+                struct_2_img.src = "struct_2_frame1.png"
+            }, 200);
+            struct_2_run = 0
+            return
+        }
+    }
+    function struct_3() {
+        let struct_3_1 = document.getElementById("struct_3_1");
+        let struct_3_2 = document.getElementById("struct_3_2");
+        let struct_3_3 = document.getElementById("struct_3_3");
+        let struct_3_4 = document.getElementById("struct_3_4");
+        let struct_3_5 = document.getElementById("struct_3_5");
+        let struct_3_text = document.getElementById("struct_3_text");
+        let struct_3_button = document.getElementById("struct_3_button");
+        let struct_3_img = document.getElementById("struct_3_img");
+        first_struct.style.visibility = "hidden"
+        first_struct.style.opacity = 0
+        if (struct_3_run == 0) {
+            struct_3_1.style.visibility = "visible"
+            struct_3_1.style.opacity = 1
+            struct_3_text.style.visibility = "hidden"
+            struct_3_text.style.opacity = 0
+            struct_3_img.style.visibility = "hidden"
+            struct_3_img.style.opacity = 0
+            struct_3_button.innerHTML = "<i class='fa-solid fa-forward' style='font-size: 20px; transform: translateX(1px);'>"
+            setTimeout(function() {
+                struct_3_text.innerHTML = "Zuerst konstruieren wir die Strecke <span class='mathematical'>c</span> die <span class='mathematical'>7cm</span> gross ist mit Endpunkten <span class='mathematical'>AB</span>."
+                struct_3_text.style.visibility = "visible"
+                struct_3_text.style.opacity = 1
+                struct_3_img.src = "struct_3_frame2.png"
+                struct_3_img.style.visibility = "visible"
+                struct_3_img.style.opacity = 1
+            }, 200);
+            struct_3_run += 1
+            return
+        }
+        if (struct_3_run == 1) {
+            struct_3_2.style.visibility = "visible"
+            struct_3_2.style.opacity = 1
+            struct_3_text.style.visibility = "hidden"
+            struct_3_text.style.opacity = 0
+            struct_3_img.style.visibility = "hidden"
+            struct_3_img.style.opacity = 0
+            setTimeout(function() {
+                struct_3_text.innerHTML = "Dann machen wir von <span class='mathematical'>A</span> aus Gerade <span class='mathematical'>g</span>, <span class='mathematical'>60°/α</span> von <span class='mathematical'>c</span> aus."
+                struct_3_text.style.visibility = "visible"
+                struct_3_text.style.opacity = 1
+                struct_3_img.src = "struct_3_frame3.png"
+                struct_3_img.style.visibility = "visible"
+                struct_3_img.style.opacity = 1
+            }, 200);
+            struct_3_run += 1
+            return
+        }
+        if (struct_3_run == 2) {
+            struct_3_3.style.visibility = "visible"
+            struct_3_3.style.opacity = 1
+            struct_3_button.innerHTML = "<i class='fa-solid fa-repeat' style='font-size: 20px; transform: translateY(0.5px);'>"
+            struct_3_text.style.visibility = "hidden"
+            struct_3_text.style.opacity = 0
+            struct_3_img.style.visibility = "hidden"
+            struct_3_img.style.opacity = 0
+            setTimeout(function() {
+                struct_3_text.innerHTML = "Dann machen wir von <span class='mathematical'>B</span> aus Gerade <span class='mathematical'>h</span>, <span class='mathematical'>45°/β</span> von <span class='mathematical'>c</span> aus."
+                struct_3_text.style.visibility = "visible"
+                struct_3_text.style.opacity = 1
+                struct_3_img.src = "struct_3_frame4.png"
+                struct_3_img.style.visibility = "visible"
+                struct_3_img.style.opacity = 1
+            }, 200);
+            struct_3_run += 1
+            return
+        }
+        if (struct_3_run == 3) {
+            struct_3_4.style.visibility = "visible"
+            struct_3_4.style.opacity = 1
+            struct_3_button.innerHTML = "<i class='fa-solid fa-repeat' style='font-size: 20px; transform: translateY(0.5px);'>"
+            struct_3_text.style.visibility = "hidden"
+            struct_3_text.style.opacity = 0
+            struct_3_img.style.visibility = "hidden"
+            struct_3_img.style.opacity = 0
+            setTimeout(function() {
+                struct_3_text.innerHTML = "Dann kriegt man den Schittpunkt von Gerade <span class='mathematical'>g</span> und Gerade <span class='mathematical'>h</span>, der Punkt <span class='mathematical'>C</span> ist."
+                struct_3_text.style.visibility = "visible"
+                struct_3_text.style.opacity = 1
+                struct_3_img.src = "struct_3_frame5.png"
+                struct_3_img.style.visibility = "visible"
+                struct_3_img.style.opacity = 1
+            }, 200);
+            struct_3_run += 1
+            return
+        }
+        if (struct_3_run == 4) {
+            struct_3_5.style.visibility = "visible"
+            struct_3_5.style.opacity = 1
+            struct_3_button.innerHTML = "<i class='fa-solid fa-repeat' style='font-size: 20px; transform: translateY(0.5px);'>"
+            struct_3_text.style.visibility = "hidden"
+            struct_3_text.style.opacity = 0
+            struct_3_img.style.visibility = "hidden"
+            struct_3_img.style.opacity = 0
+            setTimeout(function() {
+                struct_3_text.innerHTML = "Dann konstruiert man den Dreieck <span class='mathematical'>ABC</span>."
+                struct_3_text.style.visibility = "visible"
+                struct_3_text.style.opacity = 1
+                struct_3_img.src = "struct_3_frame5.png"
+                struct_3_img.style.visibility = "visible"
+                struct_3_img.style.opacity = 1
+            }, 200);
+            struct_3_run += 1
+            return
+        }
+        if (struct_3_run == 5) {
+            struct_3_1.style.visibility = "hidden"
+            struct_3_1.style.opacity = 0
+            struct_3_2.style.visibility = "hidden"
+            struct_3_2.style.opacity = 0
+            struct_3_3.style.visibility = "hidden"
+            struct_3_3.style.opacity = 0
+            struct_3_4.style.visibility = "hidden"
+            struct_3_4.style.opacity = 0
+            struct_3_5.style.visibility = "hidden"
+            struct_3_5.style.opacity = 0
+            struct_3_text.style.visibility = "hidden"
+            struct_3_text.style.opacity = 0
+            struct_3_img.style.visibility = "hidden"
+            struct_3_img.style.opacity = 0
+            struct_3_button.innerHTML = "<i class='fa-solid fa-play' style='font-size: 20px; transform: translateX(1px);'>"
+            setTimeout(function() {
+                struct_3_text.innerHTML = " "
+                struct_3_img.src = "struct_3_frame1.png"
+            }, 200);
+            struct_3_run = 0
+            return
+        }
+    }
+    function struct_4() {
+        let struct_4_1 = document.getElementById("struct_4_1");
+        let struct_4_2 = document.getElementById("struct_4_2");
+        let struct_4_3 = document.getElementById("struct_4_3");
+        let struct_4_3_1 = document.getElementById("struct_4_3_1");
+        let struct_4_4 = document.getElementById("struct_4_4");
+        let struct_4_text = document.getElementById("struct_4_text");
+        let struct_4_button = document.getElementById("struct_4_button");
+        let struct_4_img = document.getElementById("struct_4_img");
+        first_struct.style.visibility = "hidden"
+        first_struct.style.opacity = 0
+        if (struct_4_run == 0) {
+            struct_4_1.style.visibility = "visible"
+            struct_4_1.style.opacity = 1
+            struct_4_text.style.visibility = "hidden"
+            struct_4_text.style.opacity = 0
+            struct_4_img.style.visibility = "hidden"
+            struct_4_img.style.opacity = 0
+            struct_4_button.innerHTML = "<i class='fa-solid fa-forward' style='font-size: 20px; transform: translateX(1px);'>"
+            setTimeout(function() {
+                struct_4_text.innerHTML = "Zuerst konstruieren wir die Strecke <span class='mathematical'>c</span> die <span class='mathematical'>7cm</span> gross ist mit Endpunkten <span class='mathematical'>AB</span>."
+                struct_4_text.style.visibility = "visible"
+                struct_4_text.style.opacity = 1
+                struct_4_img.src = "struct_4_frame2.png"
+                struct_4_img.style.visibility = "visible"
+                struct_4_img.style.opacity = 1
+            }, 200);
+            struct_4_run += 1
+            return
+        }
+        if (struct_4_run == 1) {
+            struct_4_2.style.visibility = "visible"
+            struct_4_2.style.opacity = 1
+            struct_4_text.style.visibility = "hidden"
+            struct_4_text.style.opacity = 0
+            struct_4_img.style.visibility = "hidden"
+            struct_4_img.style.opacity = 0
+            setTimeout(function() {
+                struct_4_text.innerHTML = "Dann machen wir von <span class='mathematical'>C</span> aus Gerade <span class='mathematical'>g</span>, <span class='mathematical'>70°/γ</span> von <span class='mathematical'>a</span> aus."
+                struct_4_text.style.visibility = "visible"
+                struct_4_text.style.opacity = 1
+                struct_4_img.src = "struct_4_frame3.png"
+                struct_4_img.style.visibility = "visible"
+                struct_4_img.style.opacity = 1
+            }, 200);
+            struct_4_run += 1
+            return
+        }
+        if (struct_4_run == 2) {
+            struct_4_3.style.visibility = "visible"
+            struct_4_3.style.opacity = 1
+            struct_4_button.innerHTML = "<i class='fa-solid fa-repeat' style='font-size: 20px; transform: translateY(0.5px);'>"
+            struct_4_text.style.visibility = "hidden"
+            struct_4_text.style.opacity = 0
+            struct_4_img.style.visibility = "hidden"
+            struct_4_img.style.opacity = 0
+            setTimeout(function() {
+                struct_4_text.innerHTML = "Dann machen wir einen Kreis mit Mittelpunkt <span class='mathematical'>B</span> und den Radius <span class='mathematical'>c</span>."
+                struct_4_text.style.visibility = "visible"
+                struct_4_text.style.opacity = 1
+                struct_4_img.src = "struct_4_frame4.png"
+                struct_4_img.style.visibility = "visible"
+                struct_4_img.style.opacity = 1
+            }, 200);
+            struct_4_run += 1
+            return
+        }
+        if (struct_4_run == 3) {
+            struct_4_3_1.style.visibility = "visible"
+            struct_4_3_1.style.opacity = 1
+            struct_4_button.innerHTML = "<i class='fa-solid fa-repeat' style='font-size: 20px; transform: translateY(0.5px);'>"
+            struct_4_text.style.visibility = "hidden"
+            struct_4_text.style.opacity = 0
+            struct_4_img.style.visibility = "hidden"
+            struct_4_img.style.opacity = 0
+            setTimeout(function() {
+                struct_4_text.innerHTML = "Dann kriegt man den Schittpunkt von dem Kreis und Gerade <span class='mathematical'>g</span>, der Punkt <span class='mathematical'>A</span> ist."
+                struct_4_text.style.visibility = "visible"
+                struct_4_text.style.opacity = 1
+                struct_4_img.src = "struct_4_frame5.png"
+                struct_4_img.style.visibility = "visible"
+                struct_4_img.style.opacity = 1
+            }, 200);
+            struct_4_run += 1
+            return
+        }
+        if (struct_4_run == 4) {
+            struct_4_4.style.visibility = "visible"
+            struct_4_4.style.opacity = 1
+            struct_4_button.innerHTML = "<i class='fa-solid fa-repeat' style='font-size: 20px; transform: translateY(0.5px);'>"
+            struct_4_text.style.visibility = "hidden"
+            struct_4_text.style.opacity = 0
+            struct_4_img.style.visibility = "hidden"
+            struct_4_img.style.opacity = 0
+            setTimeout(function() {
+                struct_4_text.innerHTML = "Dann konstruiert man den Dreieck <span class='mathematical'>ABC</span>."
+                struct_4_text.style.visibility = "visible"
+                struct_4_text.style.opacity = 1
+                struct_4_img.src = "struct_4_frame6.png"
+                struct_4_img.style.visibility = "visible"
+                struct_4_img.style.opacity = 1
+            }, 200);
+            struct_4_run += 1
+            return
+        }
+        if (struct_4_run == 5) {
+            struct_4_1.style.visibility = "hidden"
+            struct_4_1.style.opacity = 0
+            struct_4_2.style.visibility = "hidden"
+            struct_4_2.style.opacity = 0
+            struct_4_3.style.visibility = "hidden"
+            struct_4_3.style.opacity = 0
+            struct_4_4.style.visibility = "hidden"
+            struct_4_4.style.opacity = 0
+            struct_4_text.style.visibility = "hidden"
+            struct_4_text.style.opacity = 0
+            struct_4_img.style.visibility = "hidden"
+            struct_4_img.style.opacity = 0
+            struct_4_button.innerHTML = "<i class='fa-solid fa-play' style='font-size: 20px; transform: translateX(1px);'>"
+            setTimeout(function() {
+                struct_4_text.innerHTML = " "
+                struct_4_img.src = "struct_4_frame1.png"
+            }, 200);
+            struct_4_run = 0
             return
         }
     }
