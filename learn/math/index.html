@@ -31,6 +31,15 @@ span.s1 {text-decoration: underline}
 span.Apple-tab-span {white-space:pre}
 span.mathematical {border-radius: 5px; background-color: #d9d4ec; color: #5a527a; font: 16px Roboto Mono; padding-left: 4px; padding-right: 4px; transition: all 0.3s ease;}
 .show_later {visibility: hidden; opacity: 0; transition: all 0.3s ease;}
+@keyframes wiggle {
+    0% { transform: translateX(0px); }
+   80% { transform: translateX(0px); }
+   85% { transform: translateX(5px); }
+   95% { transform: translateX(-5px); }
+  100% { transform: translateX(0px); }
+}
+.wiggle {display: inline-block; animation: wiggle 2.5s infinite;}
+.wiggle:hover {animation: none; visibility: hidden; opacity: 0;}
 </style>
 </head>
 <body>
@@ -55,9 +64,18 @@ span.mathematical {border-radius: 5px; background-color: #d9d4ec; color: #5a527a
 <br>
 <br>
 <br>
-<span><button onclick="struct_1()" style="display: inline-block;" id="struct_1_button">
-    Starte Konstruktion
-</button><span style="font-family: Roboto Mono;"> <i style='font-size:24px' class='fas'>&#xf060;</i>hehe</span></span>
+<span><button onclick="struct_1()" style="display: inline-block;
+    background-color: #ffffff;
+    border-color: #bab4d3;
+    color: #5a527a;
+    border-radius: 100%;
+    border: 3px solid;
+    border-style: solid;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 6px;" id="struct_1_button">
+    <i class="fa-solid fa-play" style="font-size: 20px;"></i>
+</button><span style="font-family: Roboto Mono; color: #bab4d3; transition: all 0.2s ease;" class="wiggle" id="first_struct">    <i style='font-size:14px' class='fas'>&#xf060;</i> Drücke hier um Konstruktion zu starten</span></span>
 <p class="p4"><b>Primfaktorzerlegung:</b></p>
 <p class="p3">Man kann eine zusammengesetzte Zahl immer zu kleineren Zahlen <b><i>zerlegen </i></b>(Also z.&nbsp;B. 4 = 2·2 oder 6 = 3·3). Diese Operation wurde <b><i>Primfaktorzerlegung</i></b> gennant.</p>
 <p class="p3">⚠️ <b>Warnung</b> ⚠️</p>
@@ -127,6 +145,7 @@ span.mathematical {border-radius: 5px; background-color: #d9d4ec; color: #5a527a
 <script>
     var struct_1_run = 0
     function struct_1() {
+        let first_struct = document.getElementById("first_struct");
         let struct_1_1 = document.getElementById("struct_1_1");
         let struct_1_2 = document.getElementById("struct_1_2");
         let struct_1_2_1 = document.getElementById("struct_1_2_1");
@@ -136,6 +155,8 @@ span.mathematical {border-radius: 5px; background-color: #d9d4ec; color: #5a527a
         let struct_1_text = document.getElementById("struct_1_text");
         let struct_1_button = document.getElementById("struct_1_button");
         let struct_1_img = document.getElementById("struct_1_img");
+        first_struct.style.visibility = "hidden"
+        first_struct.style.opacity = 0
         if (struct_1_run == 0) {
             struct_1_1.style.visibility = "visible"
             struct_1_1.style.opacity = 1
@@ -144,7 +165,7 @@ span.mathematical {border-radius: 5px; background-color: #d9d4ec; color: #5a527a
             struct_1_text.style.opacity = 0
             struct_1_img.style.visibility = "hidden"
             struct_1_img.style.opacity = 0
-            struct_1_button.textContent = "Weiter"
+            struct_1_button.innerHTML = "<i class='fa-solid fa-forward' style='font-size: 20px;'>"
             setTimeout(function() {
                 struct_1_text.innerHTML = "Zuerst konstruieren wir die Strecke <span class='mathematical'>c</span> die <span class='mathematical'>7cm</span> gross ist mit Endpunkten <span class='mathematical'>AB</span>."
                 struct_1_text.style.visibility = "visible"
@@ -214,7 +235,7 @@ span.mathematical {border-radius: 5px; background-color: #d9d4ec; color: #5a527a
         if (struct_1_run == 4) {
             struct_1_3.style.visibility = "visible"
             struct_1_3.style.opacity = 1
-            struct_1_button.textContent = "Starte Konstruktion neu"
+            struct_1_button.innerHTML = "<i class='fa-solid fa-repeat' style='font-size: 20px;'>"
             struct_1_run += 1
             struct_1_text.style.visibility = "hidden"
             struct_1_text.style.opacity = 0
@@ -249,7 +270,7 @@ span.mathematical {border-radius: 5px; background-color: #d9d4ec; color: #5a527a
             struct_1_img.style.visibility = "hidden"
             struct_1_img.style.opacity = 0
             struct_1_img.src = "struct_1_frame6.png"
-            struct_1_button.textContent = "Starte Konstruktion"
+            struct_1_button.innerHTML = "<i class='fa-solid fa-play' style='font-size: 20px;'>"
             struct_1_run = 0
             return
         }
