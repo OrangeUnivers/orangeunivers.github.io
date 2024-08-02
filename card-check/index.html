@@ -5,28 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phone Number Checker</title>
     <!-- <script src="https://cdn.jsdelivr.net/npm/iso-3166-1/iso-3166-1.min.js"></script> -->
+    <script src="https://kit.fontawesome.com/87b26c3ff4.js" crossorigin="anonymous"></script>
+    <style>
+        @font-face {
+            font-family: Torus;
+            src: url(Torus.otf);
+        }
+        body {
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .input {
+            outline: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 20px;
+            border: 2px solid black;
+            border-radius: 5px;
+            padding-left: 4px;
+            padding-right: 22px; /* Space for the checkmark */
+            box-sizing: border-box; /* Include padding in width */
+        }
+        .input:focus {
+            border-color: rgb(210, 115, 0);
+        }
+        ::selection {
+            background: orange;
+            color: #fff;
+        }
+        ::-webkit-selection {
+            background: orange;
+            color: #fff;
+        }
+        .input-container {
+            position: relative; /* Position the container relatively */
+            display: inline-block; /* Fit to content */
+        }
+
+        .questionmark {
+            position: absolute;
+            top: 50%;
+            right: 6px; /* Distance from the right edge */
+            transform: translateY(-50%); /* Center vertically */
+            font-size: 20px; /* Size of the checkmark */
+            color: lightgray; /* Color of the checkmark */
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 50%;
+            right: 6px; /* Distance from the right edge */
+            transform: translateY(-50%); /* Center vertically */
+            font-size: 20px; /* Size of the checkmark */
+            color: green; /* Color of the checkmark */
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        .xmark {
+            position: absolute;
+            top: 50%;
+            right: 6px; /* Distance from the right edge */
+            transform: translateY(-50%); /* Center vertically */
+            font-size: 20px; /* Size of the checkmark */
+            color: red; /* Color of the checkmark */
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+        #cardSubmit {
+            outline: none;
+            font-size: 21px;
+            font-family: 'Nunito', sans-serif;
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 1.5px;
+            padding-left: 6px;
+            padding-right: 6px;
+            margin-left: 10px;
+        }
+        #cardSubmit:focus {
+            border-color: rgb(210, 115, 0);
+        }
+        #cardSubmit:hover {
+            border-color: rgb(13, 169, 166);
+        }
+        .input-box {
+            flex-direction: row;
+            display: flex;
+        }
+        .gone {
+            display: none;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Card Checker</h1>
-    <label for="Card">Card Number:</label><br>
-    <input
-      type="text"
-      inputmode="numeric"
-      pattern="[0-9\s]{13,19}"
-      autocomplete="cc-number"
-      minlength="12"
-      maxlength="23"
-      placeholder="4012 8888 8888 180 1881"
-      id="cardNumberRaw"
-      name="Card"
-      style="text-align: left;"
-      size="23"
-    />
-    <button id="cardSubmit">Submit</button>
-    <p style="opacity: 0; transition: all 0.3s ease; text-align: left;" id="cardInputIncorrect">Card Number only allows numbers and spaces!</p><br>
-    <p id="cardValidation">No Card to validate</p>
-    <p id="cardIndustry"></p>
-    <p id="cardIssuer"></p>
+    <br>
+    <h1 style="font-family: 'Nunito', sans-serif; font-size: 60px; margin: 0; text-align: center;"><b>Card Checker</b></h1>
+    <label for="Card" style="font-family: 'Torus', sans-serif; font-size: 35px; font-weight: 700;">Card Number:</label><br>
+    
+    <div class="input-box">
+        <div class="input-container">
+            <input
+              class="input"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9\s]{13,19}"
+              autocomplete="cc-number"
+              maxlength="23"
+              placeholder="4012 8888 8888 180 1881"
+              id="cardNumberRaw"
+              name="Card"
+              style="text-align: left;"
+              size="23"
+            />
+            <i class="fa-solid fa-fw fa-question questionmark" id="cardValidation"></i>
+        </div>
+        <button id="cardSubmit">Submit</button>
+    </div>
+    <p style="opacity: 0; transition: all 0.3s ease; text-align: left; font-family: 'Torus', sans-serif; font-size: 20px; line-height: 0;" id="cardInputIncorrect"><b style='font-size: 22px;'>​</b></p><br>
+    <p style="font-family: 'Torus', sans-serif; font-size: 30px; font-weight: 900; line-height: 0px; margin-bottom: 40px;" id="cardInfoText">​</p>
+    <p id="cardIndustry" style="font-family: 'Torus', sans-serif; font-size: 25px; line-height: 10px; margin-bottom: 20px;"></p>
+    <p id="cardIssuerText" style="font-family: 'Torus', sans-serif; font-size: 25px; line-height: 10px;"><b>​</b></p>
+    <img src="empty.svg" alt="No Card!" height="200" id="cardIssuer" class="gone" style="position: absolute; z-index: -10000;">
 
     <script>
         let regex = /^[0-9]+$/;
@@ -116,7 +219,7 @@
                         case "5020":
                         case "5038":
                         case "5893":
-                            issuer = "Maestro"
+                            issuer = "maestro"
                             break;
                     }
                 }
@@ -126,14 +229,14 @@
                         case "6761":
                         case "6762":
                         case "6763":
-                            issuer = "Maestro"
+                            issuer = "maestro"
                             break;
                         case "6759":
-                            issuer = "Maestro or Maestro UK"
+                            issuer = "maestro-uk"
                             break;
                         case "6767":
                             if (["676770", "676774"].includes(cardNumber.substring(0, 6))) {
-                                issuer = "Maestro UK"
+                                issuer = "maestro-uk"
                             }
                             break;
                     }
@@ -141,7 +244,7 @@
             }
             if (cardNumber.length == 13) {
                 if (cardNumber.substring(0, 1) == "4") {
-                    issuer = "Visa"
+                    issuer = "visa"
                 }
                 if (cardNumber.substring(0, 1) == "5") {
                     switch(cardNumber.substring(0, 4)) {
@@ -149,7 +252,7 @@
                         case "5020":
                         case "5038":
                         case "5893":
-                            issuer = "Maestro"
+                            issuer = "maestro"
                             break;
                     }
                 }
@@ -159,14 +262,14 @@
                         case "6761":
                         case "6762":
                         case "6763":
-                            issuer = "Maestro"
+                            issuer = "maestro"
                             break;
                         case "6759":
-                            issuer = "Maestro or Maestro UK"
+                            issuer = "maestro-uk"
                             break;
                         case "6767":
                             if (["676770", "676774"].includes(cardNumber.substring(0, 6))) {
-                                issuer = "Maestro UK"
+                                issuer = "maestro-uk"
                             }
                             break;
                     }
@@ -175,7 +278,7 @@
             if (cardNumber.length == 15) {
                 if (cardNumber.substring(0, 1) == "3") {
                     if (["34", "37"].includes(cardNumber.substring(0, 2))) {
-                        issuer = "American Express"
+                        issuer = "american-express"
                     }
                 }
                 if (cardNumber.substring(0, 1) == "5") {
@@ -184,7 +287,7 @@
                         case "5020":
                         case "5038":
                         case "5893":
-                            issuer = "Maestro"
+                            issuer = "maestro"
                             break;
                     }
                 }
@@ -194,14 +297,14 @@
                         case "6761":
                         case "6762":
                         case "6763":
-                            issuer = "Maestro"
+                            issuer = "maestro"
                             break;
                         case "6759":
-                            issuer = "Maestro or Maestro UK"
+                            issuer = "maestro-uk"
                             break;
                         case "6767":
                             if (["676770", "676774"].includes(cardNumber.substring(0, 6))) {
-                                issuer = "Maestro UK"
+                                issuer = "maestro-uk"
                             }
                             break;
                     }
@@ -210,16 +313,16 @@
             if (cardNumber.length == 16) {
                 if (cardNumber.substring(0, 1) == "2") {
                     if (parseInt(cardNumber.substring(0, 4)) >= 2221 && parseInt(cardNumber.substring(0, 4)) <= 2720) {
-                        issuer = "Mastercard"
+                        issuer = "mastercard"
                     }
                 }
                 if (cardNumber.substring(0, 1) == "4") {
                     if (["4026", "4508", "4844", "4913", "4917"].includes(cardNumber.substring(0, 4))) {
-                        issuer = "Visa or Visa Electron"
+                        issuer = "visa-electron"
                     } else if (cardNumber.substring(0, 6) == "417500") {
-                        issuer = "Visa or Visa Electron"
+                        issuer = "visa-electron"
                     } else {
-                        issuer = "Visa"
+                        issuer = "visa"
                     }
                 }
                 if (cardNumber.substring(0, 1) == "5") {
@@ -228,11 +331,11 @@
                         case "5020":
                         case "5038":
                         case "5893":
-                            issuer = "Maestro"
+                            issuer = "maestro"
                             break;
                     }
                     if (parseInt(cardNumber.substring(0, 2)) >= 51 && parseInt(cardNumber.substring(0, 2)) <= 55) {
-                        issuer = "Mastercard"
+                        issuer = "mastercard"
                     }
                 }
                 if (cardNumber.substring(0, 1) == "6") {
@@ -241,14 +344,14 @@
                         case "6761":
                         case "6762":
                         case "6763":
-                            issuer = "Maestro"
+                            issuer = "maestro"
                             break;
                         case "6759":
-                            issuer = "Maestro or Maestro UK"
+                            issuer = "maestro-uk"
                             break;
                         case "6767":
                             if (["676770", "676774"].includes(cardNumber.substring(0, 6))) {
-                                issuer = "Maestro UK"
+                                issuer = "maestro-uk"
                             }
                             break;
                     }
@@ -256,7 +359,7 @@
             }
             if (cardNumber.length == 19) {
                 if (cardNumber.substring(0, 1) == "4") {
-                    issuer = "Visa"
+                    issuer = "visa"
                 }
                 if (cardNumber.substring(0, 1) == "5") {
                     switch(cardNumber.substring(0, 4)) {
@@ -264,7 +367,7 @@
                         case "5020":
                         case "5038":
                         case "5893":
-                            issuer = "Maestro"
+                            issuer = "maestro"
                             break;
                     }
                 }
@@ -274,14 +377,14 @@
                         case "6761":
                         case "6762":
                         case "6763":
-                            issuer = "Maestro"
+                            issuer = "maestro"
                             break;
                         case "6759":
-                            issuer = "Maestro or Maestro UK"
+                            issuer = "maestro-uk"
                             break;
                         case "6767":
                             if (["676770", "676774"].includes(cardNumber.substring(0, 6))) {
-                                issuer = "Maestro UK"
+                                issuer = "maestro-uk"
                             }
                             break;
                     }
@@ -290,48 +393,134 @@
             return issuer;
         }
 
+        function mainLoop() {
+            let cardValidation = document.getElementById('cardValidation');
+            let cardNumberRaw = document.getElementById('cardNumberRaw');
+            let cardNumber = cardNumberRaw.value.replace(/\s+/g, '');
+            if (cardNumber == "") {
+                cardValidation.className = 'fa-solid fa-fw fa-question questionmark';
+            } else if (!regex.test(cardNumber)) {
+                cardValidation.className = 'fa-solid fa-fw fa-question questionmark';
+            } else {
+                if (ValidLuhn(cardNumber)) {
+                    cardValidation.className = 'fa-solid fa-fw fa-check checkmark';
+                } else {
+                    cardValidation.className = 'fa-solid fa-fw fa-xmark xmark';
+                }
+            }
+            
+        }
+
         function SubmitCard() {
             let cardValidation = document.getElementById('cardValidation');
             let cardInputIncorrect = document.getElementById('cardInputIncorrect');
             let cardIndustry = document.getElementById('cardIndustry');
+            let cardInfoText = document.getElementById('cardInfoText');
             let cardIssuer = document.getElementById('cardIssuer');
+            let cardIssuerText = document.getElementById('cardIssuerText');
             let cardNumberRaw = document.getElementById('cardNumberRaw');
             let cardNumber = cardNumberRaw.value.replace(/\s+/g, '');
             if (cardNumber == "") {
                 if (cardInputIncorrect.style.opacity != 0) {
                     cardInputIncorrect.style.opacity = 0;
                     setTimeout(function() {
-                        cardInputIncorrect.innerText = "No number given!";
+                        cardInputIncorrect.innerHTML = "<b style='font-size: 22px; color: #AA0000;'>Error!</b> " + "No number given!";
+                        cardIndustry.innerText = "";
                         cardInputIncorrect.style.opacity = 1;
                     }, 300);
                 } else {
-                    cardInputIncorrect.innerText = "No number given!";
+                    cardInputIncorrect.innerHTML = "<b style='font-size: 22px; color: #AA0000;'>Error!</b> " + "No number given!";
+                    cardIndustry.innerText = "";
                     cardInputIncorrect.style.opacity = 1;
                 }
+                cardIssuer.className = 'gone';
+                cardInfoText.innerText = "​";
+                cardIssuerText.innerHTML = "<b>​</b>";
             } else if (!regex.test(cardNumber)) {
                 if (cardInputIncorrect.style.opacity != 0) {
                     cardInputIncorrect.style.opacity = 0;
                     setTimeout(function() {
-                        cardInputIncorrect.innerText = "Card Number only allows numbers and spaces!";
+                        cardInputIncorrect.innerHTML = "<b style='font-size: 22px; color: #AA0000;'>Error!</b> " + "Card Number can only have numbers and spaces!";
+                        cardIndustry.innerText = "";
                         cardInputIncorrect.style.opacity = 1;
                     }, 300);
                 } else {
-                    cardInputIncorrect.innerText = "Card Number only allows numbers and spaces!";
+                    cardInputIncorrect.innerHTML = "<b style='font-size: 22px; color: #AA0000;'>Error!</b> " + "Card Number can only have numbers and spaces!";
+                    cardIndustry.innerText = "";
                     cardInputIncorrect.style.opacity = 1;
                 }
-            } else {
-                cardInputIncorrect.style.opacity = 0;
-                if (ValidLuhn(cardNumber)) {
-                    cardValidation.innerText = "Card Valid!";
+                cardIssuer.className = 'gone';
+                cardInfoText.innerText = "​";
+                cardIssuerText.innerHTML = "<b>​</b>";
+            } else if (!ValidLuhn(cardNumber)) {
+                cardIndustry.innerHTML = "<b>Industry:</b> " + CheckCardIndustry(cardNumber);
+                if (cardInputIncorrect.style.opacity != 0) {
+                    cardInputIncorrect.style.opacity = 0;
+                    setTimeout(function() {
+                        cardInputIncorrect.innerHTML = "<b style='font-size: 22px; color: #AA0000;'>Error!</b> " + "Invalid Card!";
+                        // cardIndustry.innerText = "";
+                        cardInputIncorrect.style.opacity = 1;
+                    }, 300);
                 } else {
-                    cardValidation.innerText = "Card Invalid!";
+                    cardInputIncorrect.innerHTML = "<b style='font-size: 22px; color: #AA0000;'>Error!</b> " + "Invalid Card!";
+                    // cardIndustry.innerText = "";
+                    cardInputIncorrect.style.opacity = 1;
                 }
-                cardIndustry.innerText = "Industry : " + CheckCardIndustry(cardNumber);
-                cardIssuer.innerText = "Issuer     : " + CheckCardIssuer(cardNumber);
+                cardIssuer.className = 'gone';
+                cardInfoText.innerText = "Card Infos:";
+                cardIssuerText.innerHTML = "<b>​</b>";
+            } else {
+                cardIndustry.innerHTML = "<b>Industry:</b> " + CheckCardIndustry(cardNumber);
+                cardInputIncorrect.style.opacity = 0;
+                cardIssuer.className = '';
+                cardInfoText.innerText = "Card Infos:";
+                cardIssuerText.innerHTML = "<b>Card Issuer:</b>";
+                switch(CheckCardIssuer(cardNumber)) {
+                    case "visa":
+                        cardIssuer.setAttribute('src', 'VISA.svg');
+                        cardIssuer.setAttribute('alt', 'VISA');
+                        cardIssuer.style.transform = 'translateY(-80px)';
+                        break;
+                    case "mastercard":
+                        cardIssuer.setAttribute('src', 'mastercard.svg');
+                        cardIssuer.setAttribute('alt', 'mastercard');
+                        cardIssuer.style.transform = 'translateY(-30px)';
+                        break;
+                    case "visa-electron":
+                        cardIssuer.setAttribute('src', 'VISA-Electron.svg');
+                        cardIssuer.setAttribute('alt', 'VISA Electron');
+                        cardIssuer.style.transform = 'translateY(-60px)';
+                        break;
+                    case "maestro":
+                        cardIssuer.setAttribute('src', 'maestro.svg');
+                        cardIssuer.setAttribute('alt', 'maestro');
+                        cardIssuer.style.transform = 'translateY(-30px)';
+                        break;
+                    case "maestro-uk":
+                        cardIssuer.setAttribute('src', 'maestro-uk.svg');
+                        cardIssuer.setAttribute('alt', 'maestro uk');
+                        cardIssuer.style.transform = 'translateY(-30px)';
+                        break;
+                    case "american-express":
+                        cardIssuer.setAttribute('src', 'AMERICAN-EXPRESS.svg');
+                        cardIssuer.setAttribute('alt', 'AMERICAN EXPRESS');
+                        cardIssuer.style.transform = 'translateY(-70px)';
+                        break;
+                    default:
+                        cardIssuer.setAttribute('src', 'empty.svg');
+                        cardIssuer.setAttribute('alt', 'No Card');
+                        cardIssuer.style.transform = 'translateY(0px)';
+                        cardIssuer.className = 'gone';
+                        cardInfoText.innerText = "Card Infos:";
+                        cardIssuerText.innerHTML = "<b>​</b>";
+                        break;
+                }
             }
         }
 
         document.getElementById('cardSubmit').addEventListener('click', SubmitCard);
+
+        setInterval(mainLoop, 1);
     </script>
     <!-- <script type="module">
         import * as iso3166 from "https://cdn.jsdelivr.net/npm/iso-3166-1@2.1.1/dist/index.js";
