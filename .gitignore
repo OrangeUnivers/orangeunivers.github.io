@@ -1,0 +1,55 @@
+# VS Code
+.vscode/
+.vscode/*          # optional: ignores workspace settings
+!.vscode/settings.json   # keep if you want to track settings
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+env/
+venv/
+ENV/
+.env
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# Build outputs
+dist/
+build/
+out/
+
+# JetBrains IDEs (optional if used)
+.idea/
+*.iml
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Misc
+*.sqlite
+*.sqlite3
