@@ -1,0 +1,77 @@
+:root {
+    --main-color: 35;
+}
+
+body {
+    font-family: Montserrat;
+    margin: 0px;
+    overflow: hidden;
+    background-color: hsl(0, 0%, 0%);
+    color: hsl(0, 0%, 100%);
+}
+#big-screen-holder {
+    height: 100vh;
+    width: 100vw;
+    background-color: hsl(0, 0%, 0%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: height 0.3s;
+}
+#big-screen {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: 100vw;
+    color: hsl(var(--main-color), 100%, 80%);
+}
+#big-screen-background {
+    height: 400px;
+    z-index: 0;
+    filter: brightness(0.6) blur(0.2rem);
+    transition: transform 0.3s, filter 0.3s;
+}
+.minimized #big-screen-background {
+    filter: brightness(0.4) blur(0.3rem);
+    transform: scale(0.8);
+}
+#big-screen-main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#big-screen-main div {
+    width: fit-content;
+}
+#big-screen-main>.title {
+    font-weight: 800;
+    font-size: 3.8rem;
+    transition: font-size 0.3s, font-weight 0.3s, color 0.3s;
+}
+#big-screen-main>.subtitle {
+    color: hsl(var(--main-color), 0%, 100%);
+    font-weight: 400;
+    font-size: 1.8rem;
+    line-height: 1.2rem;
+    font-style: italic;
+    transition: font-size 0.3s, font-weight 0.3s, color 0.3s;
+}
+.minimized #big-screen-main>.title {
+    font-weight: 700;
+    font-size: 3rem;
+}
+.minimized #big-screen-main>.subtitle {
+    color: hsl(var(--main-color), 20%, 90%);
+    font-weight: 300;
+    font-size: 1.6rem;
+    line-height: 1.2rem;
+    font-style: italic;
+}
