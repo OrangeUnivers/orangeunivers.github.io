@@ -1,0 +1,1036 @@
+<html lang="de"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tandem-Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,800;1,9..144,400&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#FAFAF8; --bg2:#F0EFE9; --bg3:#E2E0D8;
+  --text:#1C1B18; --text2:#6B6960; --text3:#B0AEA7;
+  --border:rgba(0,0,0,.10); --border2:rgba(0,0,0,.18);
+  --tl-bg:#DFF5EC; --tl-dk:#04342C; --tl-md:#085041; --tl-lt:#9FE1CB; --tl-ac:#1D9E75;
+  --sd-bg:#FDF0DC; --sd-dk:#3D2000; --sd-md:#7A4410; --sd-lt:#F8D18A; --sd-ac:#C07C1A;
+  --bl-ac:#2563C4; --or-ac:#E04E00;
+  --fs-hero: clamp(26px, 3.8vw, 58px);
+  --fs-xl:   clamp(22px, 2.6vw, 38px);
+  --fs-lg:   clamp(17px, 1.9vw, 26px);
+  --fs-md:   clamp(15px, 1.3vw, 18px);
+  --fs-sm:   clamp(14px, 1.1vw, 16px);
+  --fs-xs:   clamp(13px, 0.95vw, 15px);
+  --r:10px; --rlg:18px; --rxl:24px;
+  --shadow: 0 3px 16px rgba(0,0,0,.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.12);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+h1, h2 { font-family: 'Fraunces', Georgia, serif; font-weight: 800; }
+
+/* ════════════════════════════════
+   SETUP PAGE
+════════════════════════════════ */
+.setup-page { max-width: 760px; margin: 0 auto; padding: clamp(1rem,4vw,2.5rem) clamp(1rem,3vw,1.5rem); }
+
+.hero { margin-bottom: clamp(1.5rem,4vw,2.5rem); }
+.hero h1 { font-size: clamp(24px,3.2vw,40px); color: var(--tl-dk); margin-bottom: .5rem; line-height: 1.15; }
+.hero p  { font-size: var(--fs-md); color: var(--text2); max-width: 560px; line-height: 1.7; }
+.btn-video { display:inline-flex; align-items:center; gap:6px; margin-top:14px; padding:8px 18px; border-radius:50px; background:var(--tl-dk); color:#fff; font-size:var(--fs-sm); font-weight:600; font-family:'DM Sans',sans-serif; border:none; cursor:pointer; }
+.btn-video:hover { background: var(--tl-md); }
+
+/* Flow */
+.flow { display:flex; align-items:center; margin-bottom: clamp(1.5rem,4vw,2.5rem); background:white; border-radius:var(--rxl); border:.5px solid var(--border2); overflow:hidden; box-shadow:var(--shadow); }
+.flow-step { flex:1; padding:clamp(12px,2vw,22px) clamp(8px,1.5vw,16px); display:flex; flex-direction:column; align-items:center; text-align:center; gap:6px; }
+.flow-step-1 { background:#EDF7F3; border-right:.5px solid var(--border); }
+.flow-step-2 { background:#EBF3FC; border-right:.5px solid var(--border); }
+.flow-step-3 { background:#FFF3EC; }
+.flow-num { width:clamp(28px,3vw,42px); height:clamp(28px,3vw,42px); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:var(--fs-md); color:#fff; }
+.flow-step-1 .flow-num { background: var(--tl-ac); }
+.flow-step-2 .flow-num { background: var(--bl-ac); }
+.flow-step-3 .flow-num { background: var(--or-ac); }
+.flow-label { font-size:var(--fs-sm); font-weight:600; line-height:1.3; }
+.flow-arrow { width:clamp(18px,2.5vw,32px); flex-shrink:0; text-align:center; color:var(--text3); font-size:clamp(14px,1.5vw,20px); background:white; }
+
+/* Set badge */
+.set-badge { display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border-radius:50px; background:white; border:.5px solid var(--border2); font-size:var(--fs-sm); color:var(--text2); margin-bottom:clamp(1rem,2.5vw,1.75rem); box-shadow:var(--shadow); }
+.set-badge strong { color:var(--text); }
+
+/* Section blocks */
+.block { border-radius:var(--rxl); margin-bottom:clamp(.8rem,2vw,1.5rem); overflow:hidden; box-shadow:var(--shadow-lg); }
+.block-head { padding:clamp(10px,1.8vw,18px) clamp(14px,2.5vw,22px); display:flex; align-items:center; gap:14px; }
+.block-body { padding:clamp(14px,2.5vw,22px); background:white; }
+.block-num { width:clamp(30px,3.2vw,44px); height:clamp(30px,3.2vw,44px); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:clamp(14px,1.5vw,20px); color:#fff; background:rgba(255,255,255,.28); flex-shrink:0; }
+.block-title { font-family:'Fraunces',serif; font-size:clamp(15px,1.6vw,21px); font-weight:800; color:#fff; line-height:1.2; }
+.block-sub { font-size:var(--fs-xs); color:rgba(255,255,255,.8); margin-top:2px; }
+.b-green  .block-head { background:linear-gradient(135deg,#1D9E75,#0D7A58); }
+.b-blue   .block-head { background:linear-gradient(135deg,#2563C4,#1A4A8A); }
+.b-orange .block-head { background:linear-gradient(135deg,#E04E00,#B83A00); }
+
+/* Form */
+label { font-size:var(--fs-sm); color:var(--text2); display:block; margin-bottom:4px; font-weight:500; }
+input, textarea { font-family:'DM Sans',sans-serif; font-size:var(--fs-md); padding:9px 12px; border:.5px solid var(--border2); border-radius:var(--r); background:var(--bg); color:var(--text); width:100%; }
+input:focus, textarea:focus { outline:2px solid var(--tl-ac); outline-offset:-1px; }
+textarea { resize:vertical; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+.sep { border:none; border-top:.5px solid var(--border); margin:14px 0; }
+
+/* Buttons */
+.btn { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; font-size:var(--fs-sm); font-weight:600; border-radius:var(--r); border:.5px solid var(--border2); background:white; color:var(--text); cursor:pointer; font-family:'DM Sans',sans-serif; white-space:nowrap; transition:background .12s, transform .08s; }
+.btn:hover:not(:disabled) { background:var(--bg2); }
+.btn:active:not(:disabled) { transform:scale(.97); }
+.btn:disabled { opacity:.35; cursor:not-allowed; }
+.btn-g { background:var(--tl-ac); color:#fff; border-color:var(--tl-ac); }
+.btn-g:hover:not(:disabled) { background:#178060; }
+.btn-b { background:var(--bl-ac); color:#fff; border-color:var(--bl-ac); }
+.btn-b:hover:not(:disabled) { background:#1A4A8A; }
+.btn-o { background:var(--or-ac); color:#fff; border-color:var(--or-ac); }
+.btn-o:hover:not(:disabled) { background:#B83A00; }
+.btn-full { width:100%; justify-content:center; padding:14px; font-size:var(--fs-lg); }
+
+/* Pair list */
+.pairs-list { max-height:280px; overflow-y:auto; margin-bottom:10px; }
+.pairs-list::-webkit-scrollbar { width:4px; }
+.pairs-list::-webkit-scrollbar-thumb { background:var(--bg3); border-radius:2px; }
+.pair-row { display:flex; align-items:stretch; border-radius:var(--r); margin-bottom:5px; overflow:hidden; border:.5px solid var(--border); cursor:grab; }
+.pair-row:active { cursor:grabbing; }
+.pair-row.drag-over { outline:2px solid var(--tl-ac); }
+.pair-ab { width:32px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:var(--fs-xs); font-weight:800; writing-mode:vertical-lr; transform:rotate(180deg); letter-spacing:.1em; }
+.pair-ab-a { background:var(--tl-bg); color:var(--tl-md); }
+.pair-ab-b { background:var(--sd-bg); color:var(--sd-md); }
+.pair-content { flex:1; padding:7px 10px; background:white; min-width:0; }
+.pair-q { font-size:var(--fs-sm); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:1px; }
+.pair-a { font-size:var(--fs-xs); color:var(--text2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pair-btns { display:flex; }
+.pair-btn { padding:0 10px; border:none; background:var(--bg2); cursor:pointer; color:var(--text2); font-size:12px; display:flex; align-items:center; border-left:.5px solid var(--border); transition:background .1s; }
+.pair-btn:hover { background:var(--bg3); }
+.pair-btn-del:hover { background:#FDECEA; color:#C0392B; }
+.pair-btn + .pair-btn { border-top:.5px solid var(--border); flex-direction:column; }
+
+.empty { text-align:center; padding:24px; color:var(--text3); font-size:var(--fs-sm); }
+.edit-box { background:var(--bg); border:.5px solid var(--border2); border-radius:var(--r); padding:14px; margin-bottom:12px; }
+.edit-box-title { font-size:var(--fs-sm); font-weight:600; color:var(--tl-md); margin-bottom:10px; }
+.legend { display:flex; gap:12px; margin-bottom:10px; font-size:var(--fs-xs); color:var(--text2); align-items:center; flex-wrap:wrap; }
+.legend-dot { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:3px; }
+.drag-hint { font-size:var(--fs-xs); color:var(--text3); text-align:center; margin-bottom:8px; }
+.warn { display:flex; align-items:center; gap:8px; background:#FFFBEA; border:.5px solid #E5C940; border-radius:var(--r); padding:8px 12px; margin-top:10px; font-size:var(--fs-xs); color:#6B5200; }
+
+/* Export block */
+.export-center { text-align:center; padding:clamp(18px,3vw,32px) clamp(12px,2.5vw,22px); }
+.export-center p { font-size:var(--fs-sm); color:var(--text2); margin:10px auto 18px; max-width:380px; line-height:1.65; }
+
+
+/* ════════════════════════════════
+   GAME
+════════════════════════════════ */
+.game-wrap { display:flex; flex-direction:column; height:100dvh; min-height:400px; }
+
+/* Test banner */
+.test-bar { background:#FFF8E1; border-bottom:2px solid #F0C040; padding:clamp(5px,.8vw,9px) clamp(12px,2vw,20px); display:flex; align-items:center; justify-content:space-between; gap:10px; flex-shrink:0; }
+.test-bar span { font-size:var(--fs-xs); color:#6B4A00; font-weight:600; }
+.btn-back { display:inline-flex; align-items:center; gap:5px; padding:6px 13px; font-size:var(--fs-xs); font-weight:700; background:#6B4A00; color:#fff; border:none; border-radius:var(--r); cursor:pointer; font-family:'DM Sans',sans-serif; }
+.btn-back:hover { background:#4e3600; }
+
+/* Persona bar */
+.persona-bar { display:flex; align-items:stretch; flex-shrink:0; border-bottom:2px solid rgba(0,0,0,.12); }
+.p-a { background:var(--tl-md); color:#fff; padding:clamp(8px,1.2vw,14px) clamp(12px,2vw,22px); display:flex; align-items:center; justify-content:space-between; gap:10px; flex:1; }
+.p-b { background:var(--sd-md); color:#fff; padding:clamp(8px,1.2vw,14px) clamp(12px,2vw,22px); display:flex; align-items:center; justify-content:space-between; gap:10px; flex:1; }
+.p-name { font-family:'Fraunces',serif; font-size:clamp(14px,1.6vw,22px); font-weight:800; }
+.info-btn { background:rgba(255,255,255,.18); border:2px solid rgba(255,255,255,.75); border-radius:50%; width:clamp(22px,2.4vw,32px); height:clamp(22px,2.4vw,32px); display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; font-size:var(--fs-sm); font-weight:700; font-family:'DM Sans',sans-serif; transition:background .12s; flex-shrink:0; }
+.info-btn:hover { background:rgba(255,255,255,.35); }
+
+/* Game split */
+.game { display:flex; flex:1; overflow:hidden; }
+.panel { flex:1; padding:clamp(10px,1.5vw,20px); display:flex; flex-direction:column; overflow:hidden; }
+.panel-l { background:var(--tl-bg); }
+.panel-r { background:var(--sd-bg); }
+
+/* Panel header: just progress + role pill */
+.panel-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:clamp(8px,1.2vw,14px); flex-shrink:0; }
+.role-pill { font-size:var(--fs-xs); font-weight:700; padding:3px 10px; border-radius:20px; }
+.prog { font-size:var(--fs-xs); font-weight:600; }
+
+/* QUESTION BOX */
+.q-wrap { flex:1; display:flex; align-items:center; justify-content:center; padding:clamp(4px,1vw,12px); }
+.q-box { position:relative; background:white; border:3px solid var(--tl-ac); border-radius:var(--rlg); padding:clamp(18px,3vw,40px); width:100%; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 24px rgba(29,158,117,.18); }
+.q-text { font-family:'Fraunces',serif; font-size:var(--fs-hero); font-weight:700; color:var(--tl-dk); text-align:center; line-height:1.4; word-break:break-word; }
+.ab-badge { position:absolute; top:-14px; right:-14px; width:clamp(26px,2.8vw,38px); height:clamp(26px,2.8vw,38px); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:clamp(11px,1.2vw,16px); color:white; border:2.5px solid white; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+.ab-a { background:var(--tl-ac); }
+.ab-b { background:var(--sd-ac); }
+
+/* COACH BOX */
+.coach-wrap { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:clamp(8px,1.2vw,14px); overflow:hidden; width:100%; }
+
+/* Label tag above mini-q */
+.q-label-tag { display:inline-flex; align-items:center; padding:3px 12px; border-radius:20px; font-size:var(--fs-xs); font-weight:700; letter-spacing:.04em; }
+.q-label-a { background:var(--tl-bg); color:var(--tl-md); border:1.5px solid var(--tl-ac); }
+.q-label-b { background:var(--sd-bg); color:var(--sd-md); border:1.5px solid var(--sd-ac); }
+
+.mini-q { background:white; border:2.5px solid var(--tl-ac); border-radius:var(--r); padding:clamp(10px,1.5vw,18px); flex-shrink:0; width:100%; }
+.mini-q-text { font-family:'Fraunces',serif; font-size:var(--fs-lg); font-weight:700; color:var(--tl-dk); line-height:1.4; word-break:break-word; text-align:center; }
+
+.coach-dash { border:none; border-top:2px dashed rgba(192,124,26,.25); flex-shrink:0; }
+
+/* Bulb button */
+.bulb-btn { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; width:100%; padding:clamp(10px,1.4vw,18px); background:transparent; border:none; border-radius:var(--rlg); cursor:pointer; font-family:'DM Sans',sans-serif; color:var(--sd-md); font-weight:600; font-size:var(--fs-sm); transition:background .15s; flex-shrink:0; }
+.bulb-btn:hover { background:rgba(192,124,26,.07); }
+.bulb-icon { font-size:clamp(28px,3.5vw,50px); line-height:1; }
+.bulb-open { background:transparent; }
+
+/* Solution box */
+.sol-box { background:white; border:2.5px solid var(--sd-ac); border-radius:var(--r); padding:clamp(10px,1.5vw,18px); flex-shrink:0; }
+.sol-text { font-family:'Fraunces',serif; font-size:var(--fs-xl); font-weight:700; color:var(--sd-dk); text-align:center; line-height:1.4; word-break:break-word; }
+
+/* Hide bulb / show sol toggle */
+.bulb-open { background:rgba(192,124,26,.08); border-color:var(--sd-ac); }
+
+/* Score buttons — large, icon-first */
+.score-row { display:flex; gap:clamp(5px,0.8vw,10px); flex-shrink:0; }
+.score-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:clamp(10px,1.4vw,18px) 4px; border:none; border-radius:var(--r); cursor:pointer; gap:4px; font-family:'DM Sans',sans-serif; font-weight:700; color:white; font-size:var(--fs-xs); transition:filter .1s, transform .08s; }
+.score-btn:hover { filter:brightness(1.12); }
+.score-btn:active { transform:scale(.95); }
+.score-icon { font-size:clamp(22px,2.8vw,40px); line-height:1; }
+
+/* Awarded + next */
+.awarded { display:flex; align-items:center; justify-content:center; gap:6px; padding:clamp(7px,1vw,11px) 14px; border-radius:var(--r); font-size:var(--fs-sm); font-weight:600; margin-bottom:8px; flex-shrink:0; }
+.btn-next { width:100%; padding:clamp(10px,1.3vw,15px); font-size:var(--fs-md); font-weight:700; color:#fff; border:none; border-radius:var(--r); cursor:pointer; font-family:'DM Sans',sans-serif; display:flex; align-items:center; justify-content:center; gap:6px; transition:filter .1s; flex-shrink:0; }
+.btn-next:hover { filter:brightness(1.1); }
+
+/* Score tally — tiny, bottom */
+.tally { font-size:var(--fs-xs); font-weight:600; padding-top:6px; flex-shrink:0; }
+
+/* Divider */
+.divider { width:clamp(52px,6vw,80px); background:var(--tl-md); flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.div-text { writing-mode:vertical-lr; transform:rotate(180deg); color:#fff; font-size:clamp(11px,1.15vw,17px); font-weight:800; letter-spacing:.12em; text-align:center; padding:12px 6px; line-height:1.6; text-transform:uppercase; }
+
+/* Info modal */
+.modal-bg { position:fixed; inset:0; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center; z-index:100; padding:20px; }
+.modal { background:white; border-radius:var(--rxl); padding:clamp(20px,3vw,36px); max-width:420px; width:100%; box-shadow:0 20px 60px rgba(0,0,0,.25); }
+.modal h2 { font-size:clamp(18px,2vw,26px); margin-bottom:12px; color:var(--tl-dk); }
+.modal p { font-size:var(--fs-md); color:var(--text2); margin-bottom:10px; line-height:1.7; }
+.modal-close { display:block; width:100%; margin-top:16px; padding:11px; font-size:var(--fs-md); font-weight:600; background:var(--tl-ac); color:#fff; border:none; border-radius:var(--r); cursor:pointer; font-family:'DM Sans',sans-serif; }
+.modal-close:hover { background:#178060; }
+
+/* Results */
+.results { max-width:640px; margin:0 auto; padding:clamp(2rem,5vw,4rem) 1.25rem; text-align:center; }
+.result-cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px; }
+.result-card { border-radius:var(--rlg); padding:clamp(16px,3vw,28px); }
+.result-score { font-family:'Fraunces',serif; font-size:clamp(40px,6vw,72px); font-weight:800; margin:4px 0; }
+.badge { font-size:var(--fs-xs); border-radius:20px; padding:3px 12px; display:inline-block; margin-bottom:8px; color:#fff; font-weight:700; }
+.badge-win { background:var(--tl-ac); }
+.badge-tie { background:#888; }
+.btn-row { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+</style>
+</head>
+<body>
+<div id="app"><div class="setup-page">
+    <div class="hero">
+      <h1>Tandemübungen<br>für den Sprachunterricht</h1>
+      <p>Interaktive Übungen, bei denen sich Lernende gegenseitig abfragen und bei der Lösung helfen.</p>
+      <button class="btn-video" onclick="alert('Videotutorial: Link hier einfügen.')">▶ Videotutorial</button>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step flow-step-1"><div class="flow-num">1</div><div class="flow-label">Aufgaben<br>erstellen</div></div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-step flow-step-2"><div class="flow-num">2</div><div class="flow-label">Set speichern<br>&amp; herunterladen</div></div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-step flow-step-3"><div class="flow-num">3</div><div class="flow-label">Für Lernende<br>exportieren</div></div>
+    </div>
+
+    <div class="set-badge">📁 Aktuelles Set: <strong>Pronomi diretti e indiretti - tandem</strong> · <span style="color:var(--text3)">30 Aufgaben</span></div>
+
+    <!-- BLOCK 1 -->
+    <div class="block b-green">
+      <div class="block-head"><div class="block-num">1</div><div><div class="block-title">Aufgaben erstellen</div></div></div>
+      <div class="block-body">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+          <label class="btn btn-g" style="cursor:pointer;margin:0">
+            Excel importieren
+            <input type="file" accept=".xlsx,.xls,.csv" id="impXlsx" style="display:none">
+          </label>
+          <button class="btn" data-a="showXlsxInfo" style="width:28px;height:28px;padding:0;justify-content:center;border-radius:50%;font-size:13px;font-weight:700;flex-shrink:0" title="Wie muss die Excel-Datei aussehen?">i</button>
+          
+        </div>
+
+        
+          <div class="pairs-list" id="pList"><div class="pair-row" draggable="true" data-i="0" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">Ho comprato il pane. ___ ho comprato stamattina.</div>
+            <div class="pair-a">→ L'ho comprato stamattina.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="0" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="0" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="1" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Conosci Maria? Sì, ___ conosco bene.</div>
+            <div class="pair-a">→ Sì, la conosco bene.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="1" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="1" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="2" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">Mangi le fragole? No, non ___ mangio.</div>
+            <div class="pair-a">→ No, non le mangio.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="2" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="2" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="3" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Hai i biglietti? Sì, ___ ho qui.</div>
+            <div class="pair-a">→ Sì, li ho qui.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="3" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="3" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="4" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">Chiami tu Marco? No, non ___ chiamo io.</div>
+            <div class="pair-a">→ No, non lo chiamo io.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="4" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="4" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="5" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Puoi aiutare me? Sì, ___ posso aiutare.</div>
+            <div class="pair-a">→ Sì, ti posso aiutare.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="5" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="5" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="6" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">Parlo con Lucia ogni giorno. ___ chiamo ogni giorno.</div>
+            <div class="pair-a">→ La chiamo ogni giorno.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="6" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="6" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="7" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Mando un messaggio a Mario. ___ mando un messaggio.</div>
+            <div class="pair-a">→ Gli mando un messaggio.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="7" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="7" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="8" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">Scrivo una lettera a te. ___ scrivo una lettera.</div>
+            <div class="pair-a">→ Ti scrivo una lettera.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="8" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="8" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="9" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Do il libro ai bambini. ___ do il libro.</div>
+            <div class="pair-a">→ Gli do il libro.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="9" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="9" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="10" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">Puoi spiegare a me la grammatica? Sì, ___ spiego tutto.</div>
+            <div class="pair-a">→ Sì, ti spiego tutto.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="10" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="10" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="11" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Mia mamma cucina spesso per me. ___ cucina ogni sera un'ottima cena.</div>
+            <div class="pair-a">→ Mi cucina ogni sera un'ottima cena.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="11" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="11" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="12" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">La mattina io ___ alzo alle sette.</div>
+            <div class="pair-a">→ La mattina io mi alzo alle sette.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="12" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="12" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="13" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Tu ___ chiami Marco, vero?</div>
+            <div class="pair-a">→ Tu ti chiami Marco, vero?</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="13" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="13" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="14" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">Lei ___ trucca davanti allo specchio.</div>
+            <div class="pair-a">→ Lei si trucca davanti allo specchio.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="14" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="14" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="15" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Noi ___ laviamo le mani prima di mangiare.</div>
+            <div class="pair-a">→ Noi ci laviamo le mani prima di mangiare.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="15" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="15" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="16" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">Voi ___ divertite alla festa?</div>
+            <div class="pair-a">→ Voi vi divertite alla festa?</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="16" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="16" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="17" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">I bambini ___ addormentano presto.</div>
+            <div class="pair-a">→ I bambini si addormentano presto.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="17" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="17" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="18" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">Hai visto il film ieri sera? Sì, ___ ho visto con mia sorella.</div>
+            <div class="pair-a">→ Sì, l'ho visto con mia sorella.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="18" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="18" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="19" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Porti tu la pizza? Sì, ___ porto io.</div>
+            <div class="pair-a">→ Sì, la porto io.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="19" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="19" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="20" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">Aspetti Anna? Sì, ___ aspetto davanti al bar.</div>
+            <div class="pair-a">→ Sì, l'aspetto davanti al bar.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="20" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="20" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="21" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Mia nonna prepara la torta per noi. ___ prepara ogni domenica.</div>
+            <div class="pair-a">→ La prepara ogni domenica.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="21" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="21" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="22" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">Scrivi a tuo fratello? Sì, ___ scrivo ogni settimana.</div>
+            <div class="pair-a">→ Sì, gli scrivo ogni settimana.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="22" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="22" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="23" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Telefoni spesso ai tuoi amici? Sì, ___ telefono ogni giorno.</div>
+            <div class="pair-a">→ Sì, gli telefono ogni giorno.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="23" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="23" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="24" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">La sera io ___ lavo i denti e ___ metto a letto.</div>
+            <div class="pair-a">→ La sera io mi lavo i denti e mi metto a letto.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="24" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="24" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="25" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Marco ___ sveglia tardi la domenica.</div>
+            <div class="pair-a">→ Marco si sveglia tardi la domenica.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="25" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="25" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="26" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">Noi ___ vestiamo in fretta la mattina.</div>
+            <div class="pair-a">→ Noi ci vestiamo in fretta la mattina.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="26" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="26" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="27" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Voi ___ sedete sempre qui?</div>
+            <div class="pair-a">→ Voi vi sedete sempre qui?</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="27" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="27" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="28" data-drag="y">
+          <div class="pair-ab pair-ab-a">A</div>
+          <div class="pair-content">
+            <div class="pair-q">I ragazzi ___ preparano per l'esame.</div>
+            <div class="pair-a">→ I ragazzi si preparano per l'esame.</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="28" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="28" style="flex:1">🗑</button>
+          </div>
+        </div><div class="pair-row" draggable="true" data-i="29" data-drag="y">
+          <div class="pair-ab pair-ab-b">B</div>
+          <div class="pair-content">
+            <div class="pair-q">Tu ___ dimentichi sempre le chiavi!</div>
+            <div class="pair-a">→ Tu ti dimentichi sempre le chiavi!</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="29" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="29" style="flex:1">🗑</button>
+          </div>
+        </div></div>
+        <p class="drag-hint">↕ Reihenfolge per Drag &amp; Drop ändern</p>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+            <button class="btn" data-a="clearAll" style="color:var(--or-ac);border-color:var(--or-ac);font-size:var(--fs-xs)">🗑 Alle löschen</button>
+          </div>
+
+        <p style="font-size:var(--fs-sm);color:var(--text2);margin-bottom:10px">oder weitere Aufgaben eingeben:</p>
+
+        <div class="edit-box">
+          <div class="grid2">
+            <div><label>Frage / Aufgabe</label><textarea id="nF" rows="3" placeholder="z.B. Come si dice «Schule»?"></textarea></div>
+            <div><label>Musterlösung</label><textarea id="nL" rows="3" placeholder="z.B. la scuola"></textarea></div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <button class="btn btn-g" data-a="add">Frage speichern</button>
+            
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end">
+          <button class="btn btn-g" data-a="start" style="font-size:var(--fs-xs)">▶ Tandemspiel testen</button>
+        </div>
+        
+      </div>
+    </div>
+
+    <!-- BLOCK 2 -->
+    <div class="block b-blue">
+      <div class="block-head"><div class="block-num">2</div><div><div class="block-title">Set benennen &amp; herunterladen</div></div></div>
+      <div class="block-body">
+        <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:flex-end;margin-bottom:14px">
+          <input id="sName" value="Pronomi diretti e indiretti - tandem" placeholder="Set benennen, z. B. Bedingungssätze_Unit4">
+          <button class="btn btn-b" data-a="saveName">✓</button>
+        </div>
+        <button class="btn btn-b btn-full" data-a="exportTeacher">⬇ Set herunterladen</button>
+      </div>
+    </div>
+
+    <!-- BLOCK 3 -->
+    <div class="block b-orange">
+      <div class="block-head"><div class="block-num">3</div><div><div class="block-title">Für Lernende exportieren</div></div></div>
+      <div class="block-body">
+        <div class="export-center">
+          <button class="btn btn-o btn-full" data-a="export" style="max-width:340px;margin:0 auto">⬇ Quiz herunterladen</button>
+          <p>Die Datei enthält alle Aufgaben eingebaut. Lernende öffnen sie im Browser und spielen sofort — ohne Login oder App.</p>
+          <hr class="sep">
+          <div style="display:inline-flex;align-items:center;gap:8px">
+            <button class="btn" data-a="exportXlsx">Aufgaben als Excel exportieren</button>
+            <button class="btn" data-a="showXlsxExportInfo" style="width:30px;height:30px;padding:0;justify-content:center;border-radius:50%;font-size:13px;font-weight:700;flex-shrink:0">i</button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const EMBEDDED = {"pairs":[{"frage":"Ho comprato il pane. ___ ho comprato stamattina.","loesung":"L'ho comprato stamattina."},{"frage":"Conosci Maria? Sì, ___ conosco bene.","loesung":"Sì, la conosco bene."},{"frage":"Mangi le fragole? No, non ___ mangio.","loesung":"No, non le mangio."},{"frage":"Hai i biglietti? Sì, ___ ho qui.","loesung":"Sì, li ho qui."},{"frage":"Chiami tu Marco? No, non ___ chiamo io.","loesung":"No, non lo chiamo io."},{"frage":"Puoi aiutare me? Sì, ___ posso aiutare.","loesung":"Sì, ti posso aiutare."},{"frage":"Parlo con Lucia ogni giorno. ___ chiamo ogni giorno.","loesung":"La chiamo ogni giorno."},{"frage":"Mando un messaggio a Mario. ___ mando un messaggio.","loesung":"Gli mando un messaggio."},{"frage":"Scrivo una lettera a te. ___ scrivo una lettera.","loesung":"Ti scrivo una lettera."},{"frage":"Do il libro ai bambini. ___ do il libro.","loesung":"Gli do il libro."},{"frage":"Puoi spiegare a me la grammatica? Sì, ___ spiego tutto.","loesung":"Sì, ti spiego tutto."},{"frage":"Mia mamma cucina spesso per me. ___ cucina ogni sera un'ottima cena.","loesung":"Mi cucina ogni sera un'ottima cena."},{"frage":"La mattina io ___ alzo alle sette.","loesung":"La mattina io mi alzo alle sette."},{"frage":"Tu ___ chiami Marco, vero?","loesung":"Tu ti chiami Marco, vero?"},{"frage":"Lei ___ trucca davanti allo specchio.","loesung":"Lei si trucca davanti allo specchio."},{"frage":"Noi ___ laviamo le mani prima di mangiare.","loesung":"Noi ci laviamo le mani prima di mangiare."},{"frage":"Voi ___ divertite alla festa?","loesung":"Voi vi divertite alla festa?"},{"frage":"I bambini ___ addormentano presto.","loesung":"I bambini si addormentano presto."},{"frage":"Hai visto il film ieri sera? Sì, ___ ho visto con mia sorella.","loesung":"Sì, l'ho visto con mia sorella."},{"frage":"Porti tu la pizza? Sì, ___ porto io.","loesung":"Sì, la porto io."},{"frage":"Aspetti Anna? Sì, ___ aspetto davanti al bar.","loesung":"Sì, l'aspetto davanti al bar."},{"frage":"Mia nonna prepara la torta per noi. ___ prepara ogni domenica.","loesung":"La prepara ogni domenica."},{"frage":"Scrivi a tuo fratello? Sì, ___ scrivo ogni settimana.","loesung":"Sì, gli scrivo ogni settimana."},{"frage":"Telefoni spesso ai tuoi amici? Sì, ___ telefono ogni giorno.","loesung":"Sì, gli telefono ogni giorno."},{"frage":"La sera io ___ lavo i denti e ___ metto a letto.","loesung":"La sera io mi lavo i denti e mi metto a letto."},{"frage":"Marco ___ sveglia tardi la domenica.","loesung":"Marco si sveglia tardi la domenica."},{"frage":"Noi ___ vestiamo in fretta la mattina.","loesung":"Noi ci vestiamo in fretta la mattina."},{"frage":"Voi ___ sedete sempre qui?","loesung":"Voi vi sedete sempre qui?"},{"frage":"I ragazzi ___ preparano per l'esame.","loesung":"I ragazzi si preparano per l'esame."},{"frage":"Tu ___ dimentichi sempre le chiavi!","loesung":"Tu ti dimentichi sempre le chiavi!"}],"setName":"Pronomi diretti e indiretti - tandem"};
+const LS_KEY = 'tandem_v7';
+
+function loadData() { try { const d = localStorage.getItem(LS_KEY); return d ? JSON.parse(d) : {}; } catch(e) { return {}; } }
+function saveData() { try { localStorage.setItem(LS_KEY, JSON.stringify({ pairs: S.pairs, setName: S.setName })); } catch(e) {} }
+
+const saved = loadData();
+const S = {
+  phase:    EMBEDDED ? (EMBEDDED.mode === 'teacher' ? 'setup' : 'game') : 'setup',
+  mode:     EMBEDDED ? (EMBEDDED.mode === 'teacher' ? 'teacher' : 'student') : 'teacher',
+  pairs:    EMBEDDED?.pairs    || saved.pairs    || [],
+  setName:  EMBEDDED?.setName  || saved.setName  || '',
+  editIdx:  null,
+  dragSrc:  null,
+  tmpF: '', tmpL: '',
+  showInfo: false,
+  showXlsxInfo: false,
+  showXlsxExportInfo: false,
+  idx: 0, showSol: false, scored: false,
+  scoresL: [], scoresR: [], lastPts: null
+};
+
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function leftAnswers() { return S.idx % 2 === 0; }
+
+function re() {
+  document.getElementById('app').innerHTML =
+    S.phase === 'setup'   ? setupHTML()   :
+    S.phase === 'game'    ? gameHTML()    : resultsHTML();
+  bind();
+}
+
+/* ─── SETUP ─── */
+function setupHTML() {
+  const c = S.pairs.length;
+  const isEdit = S.editIdx !== null;
+
+  const pairsHTML = c === 0
+    ? `<div class="empty">Noch keine Aufgaben.</div>`
+    : `<div class="pairs-list" id="pList">${S.pairs.map((p,i) => {
+        const a = i % 2 === 0;
+        return `<div class="pair-row" draggable="true" data-i="${i}" data-drag="y">
+          <div class="pair-ab ${a?'pair-ab-a':'pair-ab-b'}">${a?'A':'B'}</div>
+          <div class="pair-content">
+            <div class="pair-q">${esc(p.frage)}</div>
+            <div class="pair-a">→ ${esc(p.loesung)}</div>
+          </div>
+          <div class="pair-btns" style="flex-direction:column">
+            <button class="pair-btn" data-a="edit" data-i="${i}" style="flex:1;border-bottom:.5px solid var(--border)">✏️</button>
+            <button class="pair-btn pair-btn-del" data-a="rm" data-i="${i}" style="flex:1">🗑</button>
+          </div>
+        </div>`;}).join('')}</div>
+        ${c > 1 ? `<p class="drag-hint">↕ Reihenfolge per Drag &amp; Drop ändern</p>` : ''}`;
+
+  const warnBox = c > 0 && c < 6
+    ? `<div class="warn">⚠️ Für eine gute Tandemübung empfehlen wir mind. 6 Aufgaben (aktuell: ${c}).</div>` : '';
+
+  return `<div class="setup-page">
+    <div class="hero">
+      <h1>Tandemübungen<br>für den Sprachunterricht</h1>
+      <p>Interaktive Übungen, bei denen sich Lernende gegenseitig abfragen und bei der Lösung helfen.</p>
+      <button class="btn-video" onclick="alert('Videotutorial: Link hier einfügen.')">▶ Videotutorial</button>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step flow-step-1"><div class="flow-num">1</div><div class="flow-label">Aufgaben<br>erstellen</div></div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-step flow-step-2"><div class="flow-num">2</div><div class="flow-label">Set speichern<br>& herunterladen</div></div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-step flow-step-3"><div class="flow-num">3</div><div class="flow-label">Für Lernende<br>exportieren</div></div>
+    </div>
+
+    <div class="set-badge">📁 Aktuelles Set: <strong>${esc(S.setName||'Unbenannt')}</strong>${c > 0 ? ` · <span style="color:var(--text3)">${c} Aufgabe${c===1?'':'n'}</span>` : ''}</div>
+
+    <!-- BLOCK 1 -->
+    <div class="block b-green">
+      <div class="block-head"><div class="block-num">1</div><div><div class="block-title">Aufgaben erstellen</div></div></div>
+      <div class="block-body">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+          <label class="btn btn-g" style="cursor:pointer;margin:0">
+            Excel importieren
+            <input type="file" accept=".xlsx,.xls,.csv" id="impXlsx" style="display:none">
+          </label>
+          <button class="btn" data-a="showXlsxInfo" style="width:28px;height:28px;padding:0;justify-content:center;border-radius:50%;font-size:13px;font-weight:700;flex-shrink:0" title="Wie muss die Excel-Datei aussehen?">i</button>
+          ${S.showXlsxInfo ? `<span style="font-size:var(--fs-xs);color:var(--text2)">Spalte A: Fragen · Spalte B: Musterlösungen · Zeile 1: Kopfzeile (<em>Frage</em> / <em>Musterlösung</em>)</span>` : ''}
+        </div>
+
+        ${c > 0 ? `
+          ${pairsHTML}
+          <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+            <button class="btn" data-a="clearAll" style="color:var(--or-ac);border-color:var(--or-ac);font-size:var(--fs-xs)">🗑 Alle löschen</button>
+          </div>` : ''}
+
+        <p style="font-size:var(--fs-sm);color:var(--text2);margin-bottom:10px">${c > 0 ? 'oder weitere Aufgaben eingeben:' : 'oder Aufgaben hier eingeben:'}</p>
+
+        <div class="edit-box">
+          <div class="grid2">
+            <div><label>Frage / Aufgabe</label><textarea id="nF" rows="3" placeholder="z.B. Come si dice «Schule»?">${esc(isEdit ? S.pairs[S.editIdx].frage : S.tmpF)}</textarea></div>
+            <div><label>Musterlösung</label><textarea id="nL" rows="3" placeholder="z.B. la scuola">${esc(isEdit ? S.pairs[S.editIdx].loesung : S.tmpL)}</textarea></div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <button class="btn btn-g" data-a="add">${isEdit ? 'Änderung speichern' : 'Frage speichern'}</button>
+            ${isEdit ? `<button class="btn" data-a="cancelEdit">✕ Abbrechen</button>` : ''}
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end">
+          <button class="btn btn-g" data-a="start" ${c===0?'disabled':''} style="font-size:var(--fs-xs)">▶ Tandemspiel testen</button>
+        </div>
+        ${warnBox}
+      </div>
+    </div>
+
+    <!-- BLOCK 2 -->
+    <div class="block b-blue">
+      <div class="block-head"><div class="block-num">2</div><div><div class="block-title">Set benennen &amp; herunterladen</div></div></div>
+      <div class="block-body">
+        <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:flex-end;margin-bottom:14px">
+          <input id="sName" value="${esc(S.setName)}" placeholder="Set benennen, z. B. Bedingungssätze_Unit4">
+          <button class="btn btn-b" data-a="saveName">✓</button>
+        </div>
+        <button class="btn btn-b btn-full" data-a="exportTeacher" ${c===0?'disabled':''}>⬇ Set herunterladen</button>
+      </div>
+    </div>
+
+    <!-- BLOCK 3 -->
+    <div class="block b-orange">
+      <div class="block-head"><div class="block-num">3</div><div><div class="block-title">Für Lernende exportieren</div></div></div>
+      <div class="block-body">
+        <div class="export-center">
+          <button class="btn btn-o btn-full" data-a="export" ${c===0?'disabled':''} style="max-width:340px;margin:0 auto">⬇ Quiz herunterladen</button>
+          <p>Die Datei enthält alle Aufgaben eingebaut. Lernende öffnen sie im Browser und spielen sofort — ohne Login oder App.</p>
+          <hr class="sep">
+          <div style="display:inline-flex;align-items:center;gap:8px">
+            <button class="btn" data-a="exportXlsx" ${c===0?'disabled':''}>Aufgaben als Excel exportieren</button>
+            <button class="btn" data-a="showXlsxExportInfo" style="width:30px;height:30px;padding:0;justify-content:center;border-radius:50%;font-size:13px;font-weight:700;flex-shrink:0">i</button>
+          </div>
+          ${S.showXlsxExportInfo ? `<p style="font-size:var(--fs-xs);color:var(--text2);margin-top:8px;line-height:1.6">Exportiert das gesamte Frageset als Excel-Datei. So kannst du es mit anderen Lehrpersonen teilen — sie können es direkt in diese App importieren oder in jedem anderen Tool verwenden, das Excel-Dateien liest.</p>` : ''}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ─── GAME ─── */
+function gameHTML() {
+  const p = S.pairs[S.idx];
+  const la = leftAnswers();
+  const prog = `${S.idx+1} / ${S.pairs.length}`;
+  const isLast = S.idx + 1 >= S.pairs.length;
+  const abA = la ? 'a' : 'b';
+  const abB = !la ? 'a' : 'b';
+
+  function tally(scores, col) {
+    const t = scores.reduce((a,b)=>a+b,0);
+    return scores.length ? `<div class="tally" style="color:${col}">${t} Pkt.</div>` : '';
+  }
+
+  /* Question panel */
+  function qPanel(side) {
+    const isL = side === 'left';
+    const ab = isL ? abA : abB;
+    return `
+      <div class="panel-top">
+        <span class="prog" style="color:${isL?'var(--tl-md)':'var(--sd-md)'}">${prog}</span>
+      </div>
+      <div class="q-wrap">
+        <div class="q-box">
+          <p class="q-text">${esc(p.frage)}</p>
+        </div>
+      </div>
+      ${tally(isL ? S.scoresL : S.scoresR, isL ? 'var(--tl-md)' : 'var(--sd-md)')}`;
+  }
+
+  /* Coach panel */
+  function coachPanel(side) {
+    const isL = side === 'left';
+    const ab = isL ? abA : abB;
+    const btnBg = isL ? 'var(--tl-ac)' : 'var(--sd-ac)';
+    const colMd = isL ? 'var(--tl-md)' : 'var(--sd-md)';
+    const colLt = isL ? 'var(--tl-lt)' : 'var(--sd-lt)';
+
+    const bulbLabel = S.showSol ? '︿' : '💡';
+    const bulbTitle = S.showSol ? 'Zuklappen' : 'Lösung anzeigen';
+    const solSection = S.showSol ? `<div class="sol-box" style="width:100%"><p class="sol-text">${esc(p.loesung)}</p></div>` : '';
+
+    let actionSection = '';
+    if (S.showSol && !S.scored) {
+      actionSection = `<div class="score-row" style="width:100%">
+        <button class="score-btn" data-a="award" data-pts="2" style="background:#1D9E75"><span class="score-icon">✓</span>Korrekt<br>2P</button>
+        <button class="score-btn" data-a="award" data-pts="1" style="background:#EF9F27"><span class="score-icon">≈</span>Fast<br>1P</button>
+        <button class="score-btn" data-a="award" data-pts="0" style="background:#E24B4A"><span class="score-icon">✗</span>Falsch<br>0P</button>
+      </div>`;
+    } else if (S.scored) {
+      const lp = S.lastPts;
+      const [bg,br,tc] = lp===2?['#E1F5EE','#5DCAA5','#085041']:lp===1?['#FDF0DC','#C07C1A','#3D2000']:['#FDECEA','#E24B4A','#501313'];
+      actionSection = `
+        <div class="awarded" style="background:${bg};border:.5px solid ${br};color:${tc};width:100%">✓ Vergeben: ${lp} ${lp===1?'Punkt':'Punkte'}</div>
+        <button class="btn-next" data-a="next" style="background:${btnBg};width:100%">
+          ${isLast ? '🏁 Auswertung' : 'Nächste Frage →'}
+        </button>`;
+    }
+
+    return `
+      <div class="panel-top">
+        <span class="prog" style="color:${colMd}">${prog}</span>
+      </div>
+      <div class="coach-wrap">
+        <span class="q-label-tag ${ab==='a'?'q-label-a':'q-label-b'}">Das sieht dein Gegenüber</span>
+        <div class="mini-q"><p class="mini-q-text">${esc(p.frage)}</p></div>
+        <div class="coach-dash" style="width:100%;border:none;border-top:2px dashed rgba(0,0,0,.12)"></div>
+        <button class="bulb-btn ${S.showSol?'bulb-open':''}" data-a="sol" style="width:100%">
+          <span class="bulb-icon">${bulbLabel}</span>
+        </button>
+        ${solSection}
+        ${actionSection}
+      </div>
+      ${tally(isL ? S.scoresL : S.scoresR, colMd)}`;
+  }
+
+  const leftInner  = la  ? qPanel('left')   : coachPanel('left');
+  const rightInner = !la ? qPanel('right')  : coachPanel('right');
+
+  const testBar = S.mode === 'teacher' ? `
+    <div class="test-bar">
+      <span>👁 Testmodus</span>
+      <button class="btn-back" data-a="backSetup">← Aufgaben überarbeiten</button>
+    </div>` : '';
+
+  const modal = S.showInfo ? `
+    <div class="modal-bg" data-a="closeInfo">
+      <div class="modal" onclick="event.stopPropagation()">
+        <h2>So funktioniert die Tandemübung</h2>
+        <p>Setzt ein Blatt senkrecht zwischen euch — so sieht jede Person nur ihre eigene Bildschirmhälfte.</p>
+        <p>Person A und Person B beantworten abwechselnd eine Frage. Die andere Person sieht die Musterlösung, kann Tipps geben — aber die Lösung nicht verraten!</p>
+        <p>Nach dem Aufklappen der Lösung bewertet ihr die Antwort: ✓ Korrekt (2P) · ≈ Fast (1P) · ✗ Falsch (0P).</p>
+        <button class="modal-close" data-a="closeInfo">Verstanden ✓</button>
+      </div>
+    </div>` : '';
+
+  return `<div class="game-wrap">
+    ${testBar}
+    <div class="persona-bar">
+      <div class="p-a">
+        <span class="p-name">Person A</span>
+        <button class="info-btn" data-a="openInfo">i</button>
+      </div>
+      <div class="p-b">
+        <button class="info-btn" data-a="openInfo">i</button>
+        <span class="p-name">Person B</span>
+      </div>
+    </div>
+    <div class="game">
+      <div class="panel panel-l">${leftInner}</div>
+      <div class="divider"><div class="div-text">SICHTSCHUTZ AUFSTELLEN</div></div>
+      <div class="panel panel-r">${rightInner}</div>
+    </div>
+    ${modal}
+  </div>`;
+}
+
+/* ─── RESULTS ─── */
+function resultsHTML() {
+  const tL = S.scoresL.reduce((a,b)=>a+b,0);
+  const tR = S.scoresR.reduce((a,b)=>a+b,0);
+  const lW = tL > tR, rW = tR > tL, tie = tL === tR;
+
+  const card = (lbl, tot, n, wins) => `
+    <div class="result-card" style="background:${wins&&!tie?'#E1F5EE':'var(--bg2)'};border:.5px solid ${wins&&!tie?'#5DCAA5':'var(--border)'}">
+      ${wins&&!tie?'<div class="badge badge-win">🏆 Gewinnerin / Gewinner</div>':''}
+      ${tie?'<div class="badge badge-tie">Unentschieden</div>':''}
+      <p style="font-size:var(--fs-sm);color:var(--text2);margin-bottom:2px">${lbl}</p>
+      <p class="result-score" style="color:${wins&&!tie?'var(--tl-dk)':'var(--text)'}">${tot}</p>
+      <p style="font-size:var(--fs-xs);color:var(--text2)">aus ${n} ${n===1?'Aufgabe':'Aufgaben'}</p>
+    </div>`;
+
+  return `<div class="results">
+    <div style="font-size:clamp(44px,7vw,80px);margin-bottom:14px">🏆</div>
+    <h2 style="font-size:var(--fs-lg);margin-bottom:6px">Auswertung</h2>
+    <p style="color:var(--text2);font-size:var(--fs-sm);margin-bottom:28px">A und B haben abwechselnd geantwortet.</p>
+    <div class="result-cards">
+      ${card('← Person A', tL, S.scoresL.length, lW)}
+      ${card('Person B →', tR, S.scoresR.length, rW)}
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-g" data-a="replay">↺ Nochmals</button>
+      ${S.mode==='teacher'?`<button class="btn" data-a="backSetup">← Überarbeiten</button>`:''}
+    </div>
+  </div>`;
+}
+
+/* ─── EXCEL ─── */
+function exportTeacher() {
+  if (!S.pairs.length) return;
+  const data = JSON.stringify({ pairs: S.pairs, setName: S.setName, mode: 'teacher' });
+  const html = document.documentElement.outerHTML
+    .replace(/const EMBEDDED = [^\n]*;/, `const EMBEDDED = ${data};`);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([html], {type:'text/html'}));
+  a.download = (S.setName||'tandem') + '_EDIT.html';
+  a.click(); URL.revokeObjectURL(a.href);
+}
+function exportXlsx() {
+  if (!S.pairs.length || typeof XLSX === 'undefined') return;
+  const ws = XLSX.utils.json_to_sheet(S.pairs.map(p => ({'Frage': p.frage, 'Musterlösung': p.loesung})));
+  ws['!cols'] = [{wch:50},{wch:50}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Aufgaben');
+  XLSX.writeFile(wb, (S.setName||'tandem')+'.xlsx');
+}
+function importXlsx(file) {
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const wb = XLSX.read(ev.target.result, {type:'binary'});
+      const data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+      const pairs = data.filter(r=>r['Frage']&&r['Musterlösung'])
+        .map(r=>({frage:String(r['Frage']).trim(),loesung:String(r['Musterlösung']).trim()}))
+        .filter(p=>p.frage&&p.loesung);
+      if (pairs.length) { S.pairs = pairs; saveData(); re(); }
+      else alert('Spalten „Frage" und „Musterlösung" prüfen.');
+    } catch(e) { alert('Datei konnte nicht gelesen werden.'); }
+  };
+  r.readAsBinaryString(file);
+}
+function exportHTML() {
+  if (!S.pairs.length) return;
+  const data = JSON.stringify({pairs: S.pairs, setName: S.setName});
+  const html = document.documentElement.outerHTML
+    .replace(/const EMBEDDED = [^\n]*;/, `const EMBEDDED = ${data};`);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([html], {type:'text/html'}));
+  a.download = (S.setName||'tandem')+'.html';
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+/* ─── BIND ─── */
+function bind() {
+  const nF = document.getElementById('nF');
+  const nL = document.getElementById('nL');
+  if (nF) nF.oninput = e => { if (S.editIdx===null) S.tmpF = e.target.value; };
+  if (nL) nL.oninput = e => { if (S.editIdx===null) S.tmpL = e.target.value; };
+  const sn = document.getElementById('sName');
+  if (sn) sn.oninput = e => { S.setName = e.target.value; };
+  const xi = document.getElementById('impXlsx');
+  if (xi) xi.onchange = e => { const f=e.target.files[0]; if(f) importXlsx(f); };
+
+  document.querySelectorAll('[data-drag="y"]').forEach(el => {
+    el.ondragstart = () => { S.dragSrc = +el.dataset.i; };
+    el.ondragend   = () => { document.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over')); };
+    el.ondragover  = e => { e.preventDefault(); el.classList.add('drag-over'); };
+    el.ondragleave = () => el.classList.remove('drag-over');
+    el.ondrop = e => {
+      e.preventDefault();
+      const src = S.dragSrc, dst = +el.dataset.i;
+      if (src===null||src===dst) return;
+      const a = [...S.pairs]; const [m]=a.splice(src,1); a.splice(dst,0,m);
+      S.pairs=a; S.dragSrc=null; if(S.editIdx!==null)S.editIdx=null;
+      saveData(); re();
+    };
+  });
+
+  document.querySelectorAll('[data-a]').forEach(el => el.onclick = act);
+}
+
+function act(e) {
+  const el = e.currentTarget;
+  switch (el.dataset.a) {
+    case 'add': {
+      const f = (document.getElementById('nF')?.value||'').trim();
+      const l = (document.getElementById('nL')?.value||'').trim();
+      if (!f||!l) { alert('Bitte Frage und Musterlösung ausfüllen.'); return; }
+      if (S.editIdx !== null) { S.pairs[S.editIdx]={frage:f,loesung:l}; S.editIdx=null; }
+      else { S.pairs.push({frage:f,loesung:l}); S.tmpF=''; S.tmpL=''; }
+      saveData(); re(); break;
+    }
+    case 'edit':       { S.editIdx=+el.dataset.i; re(); break; }
+    case 'cancelEdit': { S.editIdx=null; re(); break; }
+    case 'rm':         { S.pairs.splice(+el.dataset.i,1); if(S.editIdx===+el.dataset.i)S.editIdx=null; saveData(); re(); break; }
+    case 'clearAll':   { if(confirm('Alle löschen?')){S.pairs=[];S.editIdx=null;saveData();re();} break; }
+    case 'saveName':   {
+      const n=(document.getElementById('sName')?.value||'').trim();
+      if(!n){alert('Bitte einen Namen eingeben.');return;}
+      S.setName=n; saveData(); re(); break;
+    }
+    case 'showXlsxInfo': { S.showXlsxInfo = !S.showXlsxInfo; re(); break; }
+    case 'showXlsxExportInfo': { S.showXlsxExportInfo = !S.showXlsxExportInfo; re(); break; }
+    case 'exportTeacher': exportTeacher(); break;
+    case 'export':     exportHTML(); break;
+    case 'exportXlsx': exportXlsx(); break;
+    case 'start': {
+      if(!S.pairs.length)return;
+      Object.assign(S,{idx:0,showSol:false,scored:false,scoresL:[],scoresR:[],lastPts:null,phase:'game'});
+      re(); break;
+    }
+    case 'backSetup': { S.phase='setup'; re(); break; }
+    case 'openInfo':  { S.showInfo=true;  re(); break; }
+    case 'closeInfo': { S.showInfo=false; re(); break; }
+    case 'sol':       { if (!S.scored) S.showSol = !S.showSol; re(); break; }
+    case 'award': {
+      if(S.scored)return;
+      const pts=+el.dataset.pts;
+      leftAnswers()?S.scoresL.push(pts):S.scoresR.push(pts);
+      S.lastPts=pts; S.scored=true; re(); break;
+    }
+    case 'next': {
+      if(!S.scored)return;
+      const ni=S.idx+1;
+      if(ni>=S.pairs.length){S.phase='results';re();}
+      else{Object.assign(S,{idx:ni,showSol:false,scored:false,lastPts:null});re();}
+      break;
+    }
+    case 'replay': {
+      Object.assign(S,{idx:0,showSol:false,scored:false,scoresL:[],scoresR:[],lastPts:null,phase:'game'});
+      re(); break;
+    }
+  }
+}
+
+re();
+</script>
+
+
+</body></html>
