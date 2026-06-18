@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mondiali 2026 – Gioco di Vocabolario</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    color: #fff;
+    padding: 16px;
+  }
+  .header { text-align: center; padding: 20px 10px 10px; }
+  .header h1 {
+    font-size: 2rem; font-weight: 800;
+    background: linear-gradient(90deg, #ffd700, #ff6b35);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; letter-spacing: 1px;
+  }
+  .header p { color: #aac4e0; margin-top: 4px; font-size: 0.95rem; }
+  .flags { font-size: 1.8rem; margin: 6px 0; }
+
+  .score-bar { display: flex; justify-content: center; gap: 24px; margin: 12px 0; font-size: 0.9rem; }
+  .score-item { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 16px; text-align: center; }
+  .score-item span { display: block; font-size: 1.3rem; font-weight: 700; color: #ffd700; }
+
+  .tabs { display: flex; justify-content: center; gap: 6px; margin: 14px 0; flex-wrap: wrap; }
+  .tab {
+    background: rgba(255,255,255,0.1); border: 2px solid transparent;
+    color: #aac4e0; border-radius: 30px; padding: 7px 14px;
+    cursor: pointer; font-size: 0.82rem; font-weight: 600; transition: all 0.2s;
+  }
+  .tab:hover { background: rgba(255,255,255,0.2); }
+  .tab.active { background: linear-gradient(135deg, #ffd700, #ff6b35); color: #1a1a2e; }
+
+  .game-section { display: none; }
+  .game-section.active { display: block; }
+
+  .game-card {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px; padding: 20px; margin-bottom: 16px;
+  }
+  .game-card h2 { font-size: 1.2rem; margin-bottom: 6px; color: #ffd700; }
+  .game-card .subtitle { font-size: 0.82rem; color: #aac4e0; margin-bottom: 16px; }
+
+  /* VOCABOLARIO */
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .vocab-card {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px; padding: 14px 10px; text-align: center;
+    cursor: pointer; transition: all 0.25s;
+  }
+  .vocab-card:hover { background: rgba(255,255,255,0.16); transform: translateY(-2px); }
+  .vocab-card .emoji { font-size: 2rem; display: block; margin-bottom: 6px; }
+  .vocab-card .word { font-size: 0.95rem; font-weight: 700; color: #ffd700; }
+  .vocab-card .translation { font-size: 0.78rem; color: #aac4e0; margin-top: 3px; display: none; }
+  .vocab-card.flipped .translation { display: block; }
+  .vocab-card.flipped { background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.3); }
+  .vocab-card .tap-hint { font-size: 0.68rem; color: rgba(255,255,255,0.3); margin-top: 4px; }
+
+  /* ABBINA */
+  .match-area { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .match-col { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 140px; }
+  .match-item {
+    background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 10px; padding: 10px 14px; cursor: pointer; font-size: 0.9rem;
+    text-align: center; transition: all 0.2s; user-select: none;
+  }
+  .match-item:hover { background: rgba(255,255,255,0.2); }
+  .match-item.selected { border-color: #ffd700; background: rgba(255,215,0,0.15); }
+  .match-item.correct { border-color: #4ade80; background: rgba(74,222,128,0.2); color: #4ade80; pointer-events: none; }
+  .match-item.wrong { border-color: #f87171; background: rgba(248,113,113,0.2); color: #f87171; }
+
+  /* FILL */
+  .question-block { margin-bottom: 20px; }
+  .question-block p { font-size: 1rem; margin-bottom: 10px; line-height: 1.6; }
+  .options-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .option-btn {
+    background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 10px; color: #fff; padding: 8px 16px;
+    cursor: pointer; font-size: 0.9rem; transition: all 0.2s;
+  }
+  .option-btn:hover:not(:disabled) { background: rgba(255,255,255,0.2); }
+  .option-btn.correct-ans { border-color: #4ade80; background: rgba(74,222,128,0.2); color: #4ade80; }
+  .option-btn.wrong-ans { border-color: #f87171; background: rgba(248,113,113,0.2); color: #f87171; }
+  .option-btn:disabled { cursor: default; }
+  .feedback-msg { margin-top: 8px; font-size: 0.85rem; font-weight: 600; min-height: 20px; }
+
+  /* VERO/FALSO */
+  .vf-question { margin-bottom: 20px; }
+  .vf-question p { font-size: 0.98rem; margin-bottom: 10px; line-height: 1.5; }
+  .vf-btns { display: flex; gap: 10px; }
+  .vf-btn {
+    flex: 1; padding: 10px; border-radius: 10px;
+    border: 2px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1); color: #fff;
+    font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s;
+  }
+  .vf-btn:hover:not(:disabled) { background: rgba(255,255,255,0.2); }
+  .vf-btn.correct-ans { border-color: #4ade80; background: rgba(74,222,128,0.2); color: #4ade80; }
+  .vf-btn.wrong-ans { border-color: #f87171; background: rgba(248,113,113,0.2); color: #f87171; }
+  .vf-btn:disabled { cursor: default; }
+  .vf-explain { margin-top: 8px; font-size: 0.82rem; color: #aac4e0; min-height: 18px; }
+
+  /* MEMORY */
+  .memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .mem-card {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    cursor: pointer;
+    perspective: 600px;
+    position: relative;
+    min-height: 60px;
+  }
+  .mem-inner {
+    position: absolute; inset: 0;
+    transform-style: preserve-3d;
+    transition: transform 0.35s;
+  }
+  .mem-card.flipped .mem-inner { transform: rotateY(180deg); }
+  .mem-front, .mem-back {
+    position: absolute; inset: 0;
+    border-radius: 10px;
+    backface-visibility: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 700; text-align: center;
+    padding: 6px;
+    line-height: 1.3;
+  }
+  .mem-front {
+    background: linear-gradient(135deg, #1e3a5f, #0f3460);
+    border: 2px solid rgba(255,255,255,0.2);
+    font-size: 1.6rem;
+  }
+  .mem-back {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.25);
+    transform: rotateY(180deg);
+    color: #fff;
+  }
+  .mem-card.matched .mem-front,
+  .mem-card.matched .mem-back {
+    border-color: #4ade80;
+    background: rgba(74,222,128,0.15);
+  }
+  .mem-card.shake .mem-inner { animation: shake 0.4s; }
+  @keyframes shake {
+    0%,100%{transform:rotateY(180deg) translateX(0)}
+    25%{transform:rotateY(180deg) translateX(-5px)}
+    75%{transform:rotateY(180deg) translateX(5px)}
+  }
+  .mem-stats { display: flex; gap: 16px; justify-content: center; margin-bottom: 14px; font-size: 0.85rem; color: #aac4e0; }
+  .mem-stats strong { color: #ffd700; }
+
+  /* SCRAMBOLA */
+  .scramble-word {
+    font-size: 2.2rem; letter-spacing: 6px; font-weight: 800;
+    color: #ffd700; text-align: center; margin: 12px 0 6px;
+    text-transform: uppercase;
+  }
+  .scramble-hint { text-align: center; font-size: 0.82rem; color: #aac4e0; margin-bottom: 16px; }
+  .letter-bank { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 14px; }
+  .letter-tile {
+    width: 40px; height: 40px; border-radius: 8px;
+    background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; font-weight: 800; cursor: pointer;
+    transition: all 0.15s; user-select: none; text-transform: uppercase;
+  }
+  .letter-tile:hover { background: rgba(255,215,0,0.2); border-color: #ffd700; }
+  .letter-tile.used { opacity: 0.2; pointer-events: none; }
+  .answer-slots { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 14px; }
+  .answer-slot {
+    width: 40px; height: 40px; border-radius: 8px;
+    border: 2px dashed rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; font-weight: 800; cursor: pointer;
+    transition: all 0.15s; text-transform: uppercase;
+  }
+  .answer-slot.filled { border: 2px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.1); }
+  .answer-slot.correct-slot { border-color: #4ade80; background: rgba(74,222,128,0.2); color: #4ade80; }
+  .answer-slot.wrong-slot { border-color: #f87171; background: rgba(248,113,113,0.2); color: #f87171; }
+  .scramble-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 4px; }
+  .scramble-fb { text-align: center; font-size: 0.9rem; font-weight: 700; min-height: 22px; margin-top: 8px; }
+  .scramble-progress { text-align: center; font-size: 0.82rem; color: #aac4e0; margin-bottom: 10px; }
+
+  /* PROGRESS BAR */
+  .progress-wrap { margin: 8px 0 14px; }
+  .progress-bar-bg { background: rgba(255,255,255,0.15); border-radius: 10px; height: 8px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #ffd700, #ff6b35); border-radius: 10px; transition: width 0.4s ease; }
+  .progress-label { font-size: 0.78rem; color: #aac4e0; margin-top: 4px; }
+
+  /* BANNER */
+  .world-cup-banner {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,107,53,0.1));
+    border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 14px; padding: 16px; margin-bottom: 16px;
+  }
+  .world-cup-banner h3 { color: #ffd700; margin-bottom: 6px; }
+  .world-cup-banner p { font-size: 0.88rem; color: #cce0f5; line-height: 1.6; }
+  .world-cup-banner strong { color: #fff; }
+
+  .btn-reset {
+    background: linear-gradient(135deg, #ffd700, #ff6b35);
+    color: #1a1a2e; border: none; border-radius: 30px;
+    padding: 10px 24px; font-weight: 700; font-size: 0.9rem;
+    cursor: pointer; margin-top: 10px; transition: opacity 0.2s;
+  }
+  .btn-reset:hover { opacity: 0.9; }
+  .btn-secondary {
+    background: rgba(255,255,255,0.12); color: #fff;
+    border: 2px solid rgba(255,255,255,0.2); border-radius: 30px;
+    padding: 9px 20px; font-weight: 700; font-size: 0.9rem;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="flags">🇺🇸 🇨🇦 🇲🇽</div>
+  <h1>⚽ MONDIALI 2026 ⚽</h1>
+  <p>Impara il vocabolario del calcio — Livello A1</p>
+</div>
+
+<div class="score-bar">
+  <div class="score-item"><span id="total-score">0</span>Punti</div>
+  <div class="score-item"><span id="correct-count">0</span>Corrette ✅</div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showSection('vocab', this)">📖 Vocaboli</button>
+  <button class="tab" onclick="showSection('match', this)">🔗 Abbina</button>
+  <button class="tab" onclick="showSection('fill', this)">✏️ Completa</button>
+  <button class="tab" onclick="showSection('verofals', this)">✔️ Vero/Falso</button>
+  <button class="tab" onclick="showSection('memory', this)">🃏 Memory</button>
+  <button class="tab" onclick="showSection('scramble', this)">🔤 Scrambola</button>
+</div>
+
+<!-- ───── VOCABOLARIO ───── -->
+<div id="section-vocab" class="game-section active">
+  <div class="world-cup-banner">
+    <h3>🏆 I Mondiali di Calcio 2026</h3>
+    <p>I Mondiali 2026 si giocano in <strong>3 paesi</strong>: <strong>USA 🇺🇸, Canada 🇨🇦</strong> e <strong>Messico 🇲🇽</strong>.<br>
+    Partecipano <strong>48 squadre</strong> da tutto il mondo!</p>
+  </div>
+  <div class="game-card">
+    <h2>📖 Le parole del calcio</h2>
+    <p class="subtitle">Tocca ogni carta per vedere la traduzione in tedesco!</p>
+    <div class="vocab-grid" id="vocab-grid"></div>
+  </div>
+</div>
+
+<!-- ───── ABBINA ───── -->
+<div id="section-match" class="game-section">
+  <div class="game-card">
+    <h2>🔗 Abbina la parola</h2>
+    <p class="subtitle">Clicca una parola a sinistra, poi il suo significato (in tedesco) a destra.</p>
+    <div class="progress-wrap">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="match-progress" style="width:0%"></div></div>
+      <div class="progress-label" id="match-label">0 / 8 abbinate</div>
+    </div>
+    <div class="match-area">
+      <div class="match-col" id="match-left"></div>
+      <div class="match-col" id="match-right"></div>
+    </div>
+    <button class="btn-reset" onclick="initMatch()">🔄 Ricomincia</button>
+  </div>
+</div>
+
+<!-- ───── FILL IN THE BLANK ───── -->
+<div id="section-fill" class="game-section">
+  <div class="game-card">
+    <h2>✏️ Completa la frase</h2>
+    <p class="subtitle">Scegli la parola giusta per completare la frase.</p>
+    <div id="fill-questions"></div>
+    <button class="btn-reset" onclick="initFill()">🔄 Ricomincia</button>
+  </div>
+</div>
+
+<!-- ───── VERO O FALSO ───── -->
+<div id="section-verofals" class="game-section">
+  <div class="game-card">
+    <h2>✔️ Vero o Falso?</h2>
+    <p class="subtitle">Leggi la frase e rispondi: è vera o falsa?</p>
+    <div id="vf-questions"></div>
+    <button class="btn-reset" onclick="initVeroFalso()">🔄 Ricomincia</button>
+  </div>
+</div>
+
+<!-- ───── MEMORY ───── -->
+<div id="section-memory" class="game-section">
+  <div class="game-card">
+    <h2>🃏 Memory Italiano–Tedesco</h2>
+    <p class="subtitle">Trova le coppie! Abbina ogni parola italiana alla traduzione tedesca.</p>
+    <div class="mem-stats">
+      <span>Tentativi: <strong id="mem-tries">0</strong></span>
+      <span>Coppie trovate: <strong id="mem-found">0</strong> / 8</span>
+    </div>
+    <div class="memory-grid" id="memory-grid"></div>
+    <div style="text-align:center">
+      <button class="btn-reset" onclick="initMemory()">🔄 Ricomincia</button>
+    </div>
+  </div>
+</div>
+
+<!-- ───── SCRAMBOLA ───── -->
+<div id="section-scramble" class="game-section">
+  <div class="game-card">
+    <h2>🔤 Scrambola!</h2>
+    <p class="subtitle">Riordina le lettere per formare la parola italiana giusta.</p>
+    <div class="scramble-progress" id="sc-progress">Parola 1 / 10</div>
+    <div class="scramble-hint" id="sc-hint"></div>
+    <div class="answer-slots" id="sc-slots"></div>
+    <div class="scramble-word" id="sc-scrambled"></div>
+    <div class="letter-bank" id="sc-bank"></div>
+    <div class="scramble-fb" id="sc-fb"></div>
+    <div class="scramble-actions">
+      <button class="btn-secondary" onclick="clearAnswer()">🗑️ Cancella</button>
+      <button class="btn-reset" id="sc-next-btn" onclick="nextScramble()" style="display:none">▶️ Prossima</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════
+// DATI
+// ════════════════════════════════
+const vocabItems = [
+  { emoji: '⚽', word: 'il pallone',    trans: '(DE) der Ball' },
+  { emoji: '🥅', word: 'la porta',      trans: '(DE) das Tor' },
+  { emoji: '🧤', word: 'il portiere',   trans: '(DE) der Torwart' },
+  { emoji: '👕', word: 'il giocatore',  trans: '(DE) der Spieler' },
+  { emoji: '👥', word: 'la squadra',    trans: '(DE) die Mannschaft' },
+  { emoji: '🟩', word: 'il campo',      trans: '(DE) das Spielfeld' },
+  { emoji: '🟨', word: "l'arbitro",     trans: '(DE) der Schiedsrichter' },
+  { emoji: '🏆', word: 'il campione',   trans: '(DE) der Meister' },
+  { emoji: '🎽', word: 'la maglia',     trans: '(DE) das Trikot' },
+  { emoji: '🎯', word: 'il gol',        trans: '(DE) das Tor (erzielen)' },
+  { emoji: '🏃', word: 'correre',       trans: '(DE) laufen / rennen' },
+  { emoji: '🦵', word: 'calciare',      trans: '(DE) schießen / treten' },
+  { emoji: '🎯', word: 'segnare',       trans: '(DE) ein Tor schießen' },
+  { emoji: '🏆', word: 'vincere',       trans: '(DE) gewinnen' },
+  { emoji: '😞', word: 'perdere',       trans: '(DE) verlieren' },
+  { emoji: '🤝', word: 'pareggiare',    trans: '(DE) unentschieden spielen' },
+  { emoji: '🔴', word: 'il cartellino rosso', trans: '(DE) die rote Karte' },
+  { emoji: '🟡', word: 'il cartellino giallo', trans: '(DE) die gelbe Karte' },
+];
+
+const matchData = [
+  { left: '⚽ il pallone',   right: 'der Ball' },
+  { left: '🥅 la porta',     right: 'das Tor' },
+  { left: '🧤 il portiere',  right: 'der Torwart' },
+  { left: '👥 la squadra',   right: 'die Mannschaft' },
+  { left: "🟨 l'arbitro",    right: 'der Schiedsrichter' },
+  { left: '🏃 correre',      right: 'laufen / rennen' },
+  { left: '🎯 segnare',      right: 'ein Tor schießen' },
+  { left: '🏆 vincere',      right: 'gewinnen' },
+];
+
+const memoryPairs = [
+  { it: '⚽ pallone',    de: 'der Ball' },
+  { it: '🥅 porta',     de: 'das Tor' },
+  { it: '🧤 portiere',  de: 'Torwart' },
+  { it: '👥 squadra',   de: 'Mannschaft' },
+  { it: '🎽 maglia',    de: 'das Trikot' },
+  { it: '🏃 correre',   de: 'laufen' },
+  { it: '🏆 vincere',   de: 'gewinnen' },
+  { it: '😞 perdere',   de: 'verlieren' },
+];
+
+const fillQuestions = [
+  {
+    sentence: 'Il _____ calcia il pallone nella porta.',
+    options: ['giocatore', 'arbitro', 'campo', 'maglia'],
+    answer: 'giocatore',
+    explain: '✅ Il GIOCATORE (der Spieler) calcia il pallone!'
+  },
+  {
+    sentence: 'Il portiere difende _____.',
+    options: ['la porta', 'il pallone', 'la maglia', 'il campo'],
+    answer: 'la porta',
+    explain: '✅ Il portiere difende LA PORTA (das Tor)!'
+  },
+  {
+    sentence: 'I Mondiali 2026 si giocano in USA, Canada e _____.',
+    options: ['Messico', 'Brasile', 'Argentina', 'Spagna'],
+    answer: 'Messico',
+    explain: '✅ I tre paesi ospitanti: USA 🇺🇸, Canada 🇨🇦 e MESSICO 🇲🇽!'
+  },
+  {
+    sentence: "L'arbitro fischia un _____ quando un giocatore sbaglia.",
+    options: ['fallo', 'gol', 'campo', 'squadra'],
+    answer: 'fallo',
+    explain: '✅ L\'arbitro fischia un FALLO (das Foul)!'
+  },
+  {
+    sentence: 'La squadra segna un gol e _____.',
+    options: ['vince', 'perde', 'corre', 'calcia'],
+    answer: 'vince',
+    explain: '✅ Segnare è buono! La squadra VINCE (gewinnt)!'
+  },
+  {
+    sentence: 'Ai Mondiali 2026 partecipano _____ squadre.',
+    options: ['48', '32', '24', '16'],
+    answer: '48',
+    explain: '✅ Sono 48 squadre! Prima erano solo 32!'
+  },
+  {
+    sentence: 'Il giocatore riceve un cartellino _____ per un fallo grave.',
+    options: ['rosso', 'giallo', 'verde', 'blu'],
+    answer: 'rosso',
+    explain: '✅ Cartellino ROSSO (rote Karte) = espulsione dal campo!'
+  },
+  {
+    sentence: 'Se le due squadre hanno lo stesso punteggio, la partita _____.',
+    options: ['pareggia', 'vince', 'perde', 'corre'],
+    answer: 'pareggia',
+    explain: '✅ PAREGGIA = unentschieden. Es: 1–1 è un pareggio!'
+  },
+];
+
+const vfQuestions = [
+  { text: '⚽ Il portiere può usare le mani.', answer: true,
+    explain: 'VERO! Solo il portiere può usare le mani (nella sua area).' },
+  { text: '🏟️ I Mondiali 2026 si giocano solo in USA.', answer: false,
+    explain: 'FALSO! Si giocano in USA 🇺🇸, Canada 🇨🇦 e Messico 🇲🇽!' },
+  { text: '⚽ Una squadra di calcio ha 11 giocatori in campo.', answer: true,
+    explain: 'VERO! Ogni squadra ha 11 giocatori in campo.' },
+  { text: "🟨 L'arbitro segna i gol.", answer: false,
+    explain: "FALSO! L'arbitro (Schiedsrichter) controlla la partita. I giocatori segnano!" },
+  { text: '🏆 Ai Mondiali 2026 ci sono 48 squadre.', answer: true,
+    explain: 'VERO! È la prima volta con 48 squadre — prima erano 32!' },
+  { text: '🦵 "Calciare" in tedesco si dice "schwimmen".', answer: false,
+    explain: 'FALSO! Schwimmen = nuotare. Calciare = schießen / treten!' },
+  { text: '🤝 "Pareggiare" significa che le due squadre hanno lo stesso punteggio.', answer: true,
+    explain: 'VERO! Pareggio = unentschieden. Es: 1–1, 0–0.' },
+  { text: '🔴 Il cartellino rosso significa che il giocatore deve lasciare il campo.', answer: true,
+    explain: 'VERO! Rote Karte = Platzweis. Il giocatore è espulso!' },
+  { text: '🎽 "La maglia" in tedesco si dice "der Ball".', answer: false,
+    explain: 'FALSO! Der Ball = il pallone. La maglia = das Trikot!' },
+];
+
+const scrambleWords = [
+  { word: 'PALLONE',  hint: '🇩🇪 der Ball — la sfera del calcio' },
+  { word: 'PORTIERE', hint: '🇩🇪 der Torwart — difende la porta' },
+  { word: 'SQUADRA',  hint: '🇩🇪 die Mannschaft — un gruppo di giocatori' },
+  { word: 'ARBITRO',  hint: '🇩🇪 der Schiedsrichter — controlla la partita' },
+  { word: 'CAMPO',    hint: '🇩🇪 das Spielfeld — dove si gioca' },
+  { word: 'MAGLIA',   hint: '🇩🇪 das Trikot — la camicia del giocatore' },
+  { word: 'CORRERE',  hint: '🇩🇪 laufen / rennen — muoversi velocemente' },
+  { word: 'VINCERE',  hint: '🇩🇪 gewinnen — finire primo!' },
+  { word: 'PERDERE',  hint: '🇩🇪 verlieren — non vincere' },
+  { word: 'SEGNARE',  hint: '🇩🇪 ein Tor schießen — fare un gol' },
+];
+
+// ════════════════════════════════
+// STATO
+// ════════════════════════════════
+let totalScore = 0;
+let correctCount = 0;
+
+function addScore(pts) {
+  totalScore += pts;
+  correctCount++;
+  document.getElementById('total-score').textContent = totalScore;
+  document.getElementById('correct-count').textContent = correctCount;
+}
+
+// ════════════════════════════════
+// NAVIGAZIONE
+// ════════════════════════════════
+function showSection(id, tabEl) {
+  document.querySelectorAll('.game-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  tabEl.classList.add('active');
+}
+
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+// ════════════════════════════════
+// VOCABOLARIO
+// ════════════════════════════════
+function initVocab() {
+  const grid = document.getElementById('vocab-grid');
+  grid.innerHTML = '';
+  vocabItems.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'vocab-card';
+    card.innerHTML = `
+      <span class="emoji">${item.emoji}</span>
+      <div class="word">${item.word}</div>
+      <div class="translation">${item.trans}</div>
+      <div class="tap-hint">tocca ▼</div>
+    `;
+    card.onclick = () => card.classList.toggle('flipped');
+    grid.appendChild(card);
+  });
+}
+
+// ════════════════════════════════
+// ABBINA
+// ════════════════════════════════
+let matchSelected = null, matchSide = null, matchDone = 0;
+
+function initMatch() {
+  matchSelected = null; matchSide = null; matchDone = 0;
+  updateMatchProgress();
+  const leftCol = document.getElementById('match-left');
+  const rightCol = document.getElementById('match-right');
+  leftCol.innerHTML = ''; rightCol.innerHTML = '';
+  shuffle(matchData).forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.textContent = item.left;
+    el.dataset.key = item.left; el.dataset.side = 'left';
+    el.onclick = () => handleMatchClick(el);
+    leftCol.appendChild(el);
+  });
+  shuffle(matchData).forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.textContent = item.right;
+    el.dataset.key = item.left; el.dataset.side = 'right';
+    el.onclick = () => handleMatchClick(el);
+    rightCol.appendChild(el);
+  });
+}
+
+function handleMatchClick(el) {
+  if (el.classList.contains('correct') || el.classList.contains('wrong')) return;
+  const side = el.dataset.side;
+  if (!matchSelected) {
+    el.classList.add('selected'); matchSelected = el; matchSide = side; return;
+  }
+  if (matchSide === side) {
+    document.querySelectorAll('.match-item.selected').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected'); matchSelected = el; matchSide = side; return;
+  }
+  const leftEl = side === 'right' ? matchSelected : el;
+  const rightEl = side === 'right' ? el : matchSelected;
+  if (leftEl.dataset.key === rightEl.dataset.key) {
+    leftEl.classList.remove('selected'); rightEl.classList.remove('selected');
+    leftEl.classList.add('correct'); rightEl.classList.add('correct');
+    matchDone++; addScore(10); updateMatchProgress();
+  } else {
+    leftEl.classList.add('wrong'); rightEl.classList.add('wrong');
+    setTimeout(() => {
+      leftEl.classList.remove('wrong','selected');
+      rightEl.classList.remove('wrong','selected');
+    }, 700);
+  }
+  matchSelected = null; matchSide = null;
+}
+
+function updateMatchProgress() {
+  const pct = (matchDone / matchData.length) * 100;
+  document.getElementById('match-progress').style.width = pct + '%';
+  document.getElementById('match-label').textContent = `${matchDone} / ${matchData.length} abbinate`;
+}
+
+// ════════════════════════════════
+// FILL IN THE BLANK
+// ════════════════════════════════
+function initFill() {
+  const container = document.getElementById('fill-questions');
+  container.innerHTML = '';
+  fillQuestions.forEach((q, i) => {
+    const block = document.createElement('div');
+    block.className = 'question-block';
+    const displayed = q.sentence.replace('_____', '<span style="color:#ffd700;font-weight:700">______</span>');
+    block.innerHTML = `
+      <p><strong>${i + 1}.</strong> ${displayed}</p>
+      <div class="options-grid" id="fill-opts-${i}"></div>
+      <div class="feedback-msg" id="fill-fb-${i}"></div>
+    `;
+    container.appendChild(block);
+    const optsDiv = block.querySelector(`#fill-opts-${i}`);
+    shuffle(q.options).forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn'; btn.textContent = opt;
+      btn.onclick = () => {
+        optsDiv.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+        const fb = document.getElementById(`fill-fb-${i}`);
+        if (opt === q.answer) {
+          btn.classList.add('correct-ans');
+          fb.textContent = q.explain; fb.style.color = '#4ade80';
+          addScore(10);
+        } else {
+          btn.classList.add('wrong-ans');
+          optsDiv.querySelectorAll('.option-btn').forEach(b => { if (b.textContent === q.answer) b.classList.add('correct-ans'); });
+          fb.textContent = `❌ La risposta corretta è: ${q.answer}`; fb.style.color = '#f87171';
+        }
+      };
+      optsDiv.appendChild(btn);
+    });
+  });
+}
+
+// ════════════════════════════════
+// VERO O FALSO
+// ════════════════════════════════
+function initVeroFalso() {
+  const container = document.getElementById('vf-questions');
+  container.innerHTML = '';
+  vfQuestions.forEach((q, i) => {
+    const block = document.createElement('div');
+    block.className = 'vf-question';
+    block.innerHTML = `
+      <p><strong>${i + 1}.</strong> ${q.text}</p>
+      <div class="vf-btns">
+        <button class="vf-btn" id="vf-v-${i}" onclick="answerVF(${i}, true)">✅ Vero</button>
+        <button class="vf-btn" id="vf-f-${i}" onclick="answerVF(${i}, false)">❌ Falso</button>
+      </div>
+      <div class="vf-explain" id="vf-exp-${i}"></div>
+    `;
+    container.appendChild(block);
+  });
+}
+
+function answerVF(i, chosen) {
+  const q = vfQuestions[i];
+  const vBtn = document.getElementById(`vf-v-${i}`);
+  const fBtn = document.getElementById(`vf-f-${i}`);
+  const exp = document.getElementById(`vf-exp-${i}`);
+  vBtn.disabled = true; fBtn.disabled = true;
+  if (chosen === q.answer) {
+    (chosen ? vBtn : fBtn).classList.add('correct-ans');
+    exp.textContent = q.explain; exp.style.color = '#4ade80';
+    addScore(10);
+  } else {
+    (chosen ? vBtn : fBtn).classList.add('wrong-ans');
+    (!chosen ? vBtn : fBtn).classList.add('correct-ans');
+    exp.textContent = q.explain; exp.style.color = '#f87171';
+  }
+}
+
+// ════════════════════════════════
+// MEMORY
+// ════════════════════════════════
+let memFlipped = [], memLocked = false, memFound = 0, memTries = 0;
+
+function initMemory() {
+  memFlipped = []; memLocked = false; memFound = 0; memTries = 0;
+  document.getElementById('mem-tries').textContent = 0;
+  document.getElementById('mem-found').textContent = 0;
+  const grid = document.getElementById('memory-grid');
+  grid.innerHTML = '';
+  const cards = [];
+  memoryPairs.forEach((pair, i) => {
+    cards.push({ id: i, type: 'it', text: pair.it });
+    cards.push({ id: i, type: 'de', text: pair.de });
+  });
+  shuffle(cards).forEach((card, idx) => {
+    const el = document.createElement('div');
+    el.className = 'mem-card';
+    el.dataset.id = card.id;
+    el.dataset.idx = idx;
+    el.innerHTML = `
+      <div class="mem-inner">
+        <div class="mem-front">🃏</div>
+        <div class="mem-back">${card.text}</div>
+      </div>`;
+    el.onclick = () => flipMemCard(el);
+    grid.appendChild(el);
+  });
+}
+
+function flipMemCard(el) {
+  if (memLocked || el.classList.contains('flipped') || el.classList.contains('matched')) return;
+  el.classList.add('flipped');
+  memFlipped.push(el);
+  if (memFlipped.length === 2) {
+    memLocked = true;
+    memTries++;
+    document.getElementById('mem-tries').textContent = memTries;
+    setTimeout(checkMemoryMatch, 900);
+  }
+}
+
+function checkMemoryMatch() {
+  const [a, b] = memFlipped;
+  if (a.dataset.id === b.dataset.id) {
+    a.classList.add('matched'); b.classList.add('matched');
+    memFound++;
+    document.getElementById('mem-found').textContent = memFound;
+    addScore(15);
+    if (memFound === memoryPairs.length) {
+      setTimeout(() => alert(`🏆 Bravo! Hai trovato tutte le coppie in ${memTries} tentativi!`), 300);
+    }
+  } else {
+    a.classList.add('shake'); b.classList.add('shake');
+    setTimeout(() => {
+      a.classList.remove('flipped','shake');
+      b.classList.remove('flipped','shake');
+    }, 400);
+  }
+  memFlipped = []; memLocked = false;
+}
+
+// ════════════════════════════════
+// SCRAMBOLA
+// ════════════════════════════════
+let scIndex = 0, scAnswer = [], scTiles = [], scWords = [];
+
+function initScramble() {
+  scWords = shuffle(scrambleWords);
+  scIndex = 0;
+  loadScrambleWord();
+}
+
+function scrambleLetters(word) {
+  let arr = word.split('');
+  do { arr = shuffle(arr); } while (arr.join('') === word);
+  return arr;
+}
+
+function loadScrambleWord() {
+  scAnswer = [];
+  document.getElementById('sc-fb').textContent = '';
+  document.getElementById('sc-next-btn').style.display = 'none';
+  const item = scWords[scIndex];
+  document.getElementById('sc-progress').textContent = `Parola ${scIndex+1} / ${scWords.length}`;
+  document.getElementById('sc-hint').textContent = `💡 Suggerimento: ${item.hint}`;
+
+  scTiles = scrambleLetters(item.word);
+
+  // Render bank
+  const bank = document.getElementById('sc-bank');
+  bank.innerHTML = '';
+  scTiles.forEach((letter, i) => {
+    const tile = document.createElement('div');
+    tile.className = 'letter-tile';
+    tile.textContent = letter;
+    tile.dataset.idx = i;
+    tile.onclick = () => pickLetter(tile, i);
+    bank.appendChild(tile);
+  });
+
+  // Render slots
+  const slots = document.getElementById('sc-slots');
+  slots.innerHTML = '';
+  for (let i = 0; i < item.word.length; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'answer-slot';
+    slot.dataset.pos = i;
+    slot.onclick = () => removeLetter(slot);
+    slots.appendChild(slot);
+  }
+}
+
+function pickLetter(tile, idx) {
+  if (tile.classList.contains('used')) return;
+  tile.classList.add('used');
+  const item = scWords[scIndex];
+  // Find first empty slot
+  const slots = document.querySelectorAll('.answer-slot');
+  for (let slot of slots) {
+    if (!slot.classList.contains('filled')) {
+      slot.textContent = scTiles[idx];
+      slot.classList.add('filled');
+      slot.dataset.tileIdx = idx;
+      scAnswer.push({ pos: parseInt(slot.dataset.pos), letter: scTiles[idx], tileIdx: idx });
+      break;
+    }
+  }
+  // Check if complete
+  if (scAnswer.length === item.word.length) checkScramble();
+}
+
+function removeLetter(slot) {
+  if (!slot.classList.contains('filled')) return;
+  const tileIdx = parseInt(slot.dataset.tileIdx);
+  const bank = document.getElementById('sc-bank');
+  bank.querySelectorAll('.letter-tile').forEach(t => {
+    if (parseInt(t.dataset.idx) === tileIdx) t.classList.remove('used');
+  });
+  scAnswer = scAnswer.filter(a => a.tileIdx !== tileIdx);
+  slot.textContent = '';
+  slot.classList.remove('filled','correct-slot','wrong-slot');
+  document.getElementById('sc-fb').textContent = '';
+  document.getElementById('sc-next-btn').style.display = 'none';
+}
+
+function clearAnswer() {
+  const bank = document.getElementById('sc-bank');
+  bank.querySelectorAll('.letter-tile').forEach(t => t.classList.remove('used'));
+  document.querySelectorAll('.answer-slot').forEach(s => {
+    s.textContent = ''; s.classList.remove('filled','correct-slot','wrong-slot');
+  });
+  scAnswer = [];
+  document.getElementById('sc-fb').textContent = '';
+  document.getElementById('sc-next-btn').style.display = 'none';
+}
+
+function checkScramble() {
+  const item = scWords[scIndex];
+  const slots = document.querySelectorAll('.answer-slot');
+  const formed = Array.from(slots).map(s => s.textContent).join('');
+  const fb = document.getElementById('sc-fb');
+
+  if (formed === item.word) {
+    slots.forEach(s => s.classList.add('correct-slot'));
+    fb.textContent = `✅ Bravo! La parola è "${item.word}"!`;
+    fb.style.color = '#4ade80';
+    addScore(20);
+  } else {
+    slots.forEach(s => s.classList.add('wrong-slot'));
+    fb.textContent = `❌ Non è corretto. La parola è: ${item.word}`;
+    fb.style.color = '#f87171';
+  }
+  // Disable bank tiles
+  document.querySelectorAll('.letter-tile').forEach(t => t.style.pointerEvents = 'none');
+  if (scIndex < scWords.length - 1) document.getElementById('sc-next-btn').style.display = 'inline-block';
+  else {
+    const nextBtn = document.getElementById('sc-next-btn');
+    nextBtn.textContent = '🔄 Ricomincia';
+    nextBtn.style.display = 'inline-block';
+    nextBtn.onclick = initScramble;
+  }
+}
+
+function nextScramble() {
+  scIndex++;
+  if (scIndex < scWords.length) loadScrambleWord();
+}
+
+// ════════════════════════════════
+// INIT ALL
+// ════════════════════════════════
+initVocab();
+initMatch();
+initFill();
+initVeroFalso();
+initMemory();
+initScramble();
+</script>
+</body>
+</html>
